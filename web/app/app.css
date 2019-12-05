@@ -9,9 +9,8 @@
   position: fixed;
   left: 10px;
   bottom: 10px;
-  width: 260px;
-  max-height: 300px;
-  overflow-y: auto;
+  width: 200px;
+  height: 300px;
   background-color: white;
   border: 2px solid #cccccc;
   background-clip: padding-box;
