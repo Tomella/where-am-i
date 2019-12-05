@@ -1,0 +1,4 @@
+{"type": "FeatureCollection","features": [
+{"type": "Feature","properties":{"time":"2019-10-23T22:49:02.258Z","provider":"network","time_long":1571870942258,"accuracy":20.0},"geometry":{"type":"Point","coordinates":[138.8107399,-34.4557147]}}
+,{"type": "Feature","properties":{"time":"2019-10-23T22:49:20.000Z","provider":"gps","time_long":1571870960000,"accuracy":20.368,"altitude":186.02197265625,"speed":0.0},"geometry":{"type":"Point","coordinates":[138.81077089,-34.45576642]}}
+]}

@@ -1,0 +1,19 @@
+#mapId {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+#controls {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  width: 260px;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 2px solid #cccccc;
+  background-clip: padding-box;
+  border-radius: 4px;
+}

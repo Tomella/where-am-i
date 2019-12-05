@@ -1,0 +1,3 @@
+{"type": "FeatureCollection","features": [
+{"type": "Feature","properties":{"time":"2019-10-23T11:13:07.921Z","provider":"network","time_long":1571829187921,"accuracy":20.0},"geometry":{"type":"Point","coordinates":[138.8107399,-34.4557147]}}
+]}
