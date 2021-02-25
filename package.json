@@ -36,12 +36,12 @@
     "path": "^0.12.7"
   },
   "dependencies": {
-    "babel-eslint": "^10.1.0",
-    "express": "^4.17.1",
-    "mysql": "^2.18.1",
-    "request": "^2.88.2",
-    "unzipper": "^0.10.11",
-    "yargs": "^15.3.1"
+    "babel-eslint": "^10.0.3",
+    "express": "^4.13.3",
+    "mysql": "^2.16.0",
+    "request": "^2.74.0",
+    "unzipper": "^0.10.1",
+    "yargs": "^4.8.1"
   },
   "browserslist": [
     "last 1 version",
