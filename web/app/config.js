@@ -25,7 +25,7 @@ export default {
    featuresUrl: "paths/Walking",
    tracker: {
       url: "points/",
-      count: 2100,
+      count: 20000,
       colors:[
          "#ff7800",
          "#00ff78",

@@ -31,7 +31,7 @@ async function run() {
 
    app.use(express.static("web"));
 
-   app.all('/gpslogger/:job', function (req, res) {
+   app.all('/gpslogger/:job', async (req, res) => {
 
       let job = jobsMap[req.params["job"]];
       if (!job) {
@@ -41,22 +41,21 @@ async function run() {
 
       console.log(",\n" + JSON.stringify(req.query));
 
-      journal.log(job, req.query).then(response => {
+      try {
+         await journal.log(job, req.query);
          res.status(200).send("OK");
-         // console.log(job +":", req.query);
-      }).catch(e => {
+      } catch(e) {
          console.log(e);
          res.status(500).send(e);
-      })
+      }
    });
 
-   app.all('/jobs', function (req, res) {
-      job.all().then(jobs => {
-         res.status(200).send(jobs);
-      });
+   app.all('/jobs', async (req, res) => {
+      let jobs = await job.all();
+      res.status(200).send(jobs);
    });
 
-   app.all('/paths/:job', function (req, res) {
+   app.all('/paths/:job', (req, res) => {
       const pathBuffer = [];
       path.build(req.params["job"])
          .on("path", path => {
@@ -74,7 +73,7 @@ async function run() {
    });
 
 
-   app.all('/pathsSummary/:job', function (req, res) {
+   app.all('/pathsSummary/:job', (req, res) => {
       const pathBuffer = [];
       path.build(req.params["job"])
          .on("path", path => {
@@ -91,12 +90,11 @@ async function run() {
          });
    });
 
-   app.all('/points/:job', function (req, res) {
+   app.all('/points/:job', async (req, res) => {
       const count = req.query["count"];
 
-      point.get(req.params["job"], count ? count : 200).then(points => {
-         res.status(200).send(GeoJson.pointsToJson(points));
-      });
+      let points = await point.get(req.params["job"], count ? count : 200);
+      res.status(200).send(GeoJson.pointsToJson(points));
    });
 
    app.listen(port, function (err) {
@@ -106,6 +104,14 @@ async function run() {
 
 async function allJobsMap(job) {
    const jobs = await job.all();
+   return jobs.reduce((acc, job) => {
+      console.log(job)
+      acc[job.name] = job;
+      return acc;
+   }, {});
+}
+
+async function createJob(job) {
    return jobs.reduce((acc, job) => {
       console.log(job)
       acc[job.name] = job;

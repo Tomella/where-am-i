@@ -1,7 +1,7 @@
 import Map from "./map.js";
 import config from "./config.js";
 import Jobs from "./jobs.js";
-import Tracker from "./Tracker.js";
+import Tracker from "./tracker.js";
 
 let mapManager = new Map(config.map);
 mapManager.create();

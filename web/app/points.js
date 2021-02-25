@@ -18,41 +18,38 @@ export default class Points {
       this.map = map;
    }
 
-   show() {
-      return new Promise((resolve, reject) => {
-         loader(this.config.url + this.job + "?count=" + this.config.count).then(response => {
-            let me = this;
-            if (!this.last || this.last !== response.features[0].properties.name) {
-               if (this.layer) this.layer.remove();
+   async show() {
+      let response = await loader(this.config.url + this.job + "?count=" + this.config.count);
 
-               // We want to reverse te features so lets shallow copy and reverse
-               let count = response.features.length;
-               let latest = response.features[0];
-               this.last = latest.properties.name;
+      if (!this.last || this.last !== response.features[0].properties.name) {
+         if (this.layer) this.layer.remove();
 
-               response.features = response.features.reverse().map((feature, index) => {
-                  feature.properties.opacity = (index + 1) / count;
-                  return feature;
-               });
+         // We want to reverse the features so lets shallow copy and reverse
+         let count = response.features.length;
+         let latest = response.features[0];
+         this.last = latest.properties.name;
 
-               this.layer = L.geoJSON(response, {
-                  pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-                     ...this.config,
-                     fillOpacity: feature.properties.opacity,
-                     opacity: feature.properties.opacity
-                  })
-               }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
-               this.layer.addTo(this.map)
-               this.map.panTo(latest.geometry.coordinates.reverse());
-               resolve(true);
-            } else {
-               resolve(false);
-            }
-         });
-      });
+         response.features = response.features.reverse().map((feature, index) => {
+            feature.properties.opacity = 0.1 + (index + 1) / count * 0.9 ;
+            return feature;
+          });
+
+         this.layer = L.geoJSON(response, {
+            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+               ...this.config,
+               fillOpacity: feature.properties.opacity,
+               opacity: feature.properties.opacity
+            })
+         }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
+         this.layer.addTo(this.map)
+         this.map.panTo(latest.geometry.coordinates.reverse());
+         return true;
+      } else {
+         return false;
+      }
    }
 
-   run() {
+   async run() {
       let pointsLoop = () => {
          let delay = 2000;
          this.show().then(result => {
