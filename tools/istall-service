@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Don't really expect this to be run but it gives good hints on what to do to create a service.
+#
+sudo cp /home/gpslogger/where-am-i/tools/gpslogger.service /etc/systemd/system/
+sudo cp /home/gpslogger/where-am-i/tools/gpslogger /sbin
+sudo chmod 755 /sbin/gpslogger
+sudo chown root:root /sbin/gpslogger
+sudo systemctl enable gpslogger

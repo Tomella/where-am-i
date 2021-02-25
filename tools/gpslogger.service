@@ -1,0 +1,12 @@
+[Unit]
+Description=GPS Logger Daemon
+After=syslog.target network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+ExecStart=/sbin/gpslogger
+User=gpslogger
+Group=gpslogger
+[Install]
+WantedBy=multi-user.target

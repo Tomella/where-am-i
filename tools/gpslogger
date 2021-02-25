@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+
+# We need environment variables for passwords and the likes
+. /home/gpslogger/.bash_profile
+cd /home/gpslogger
+sleep 10s
+
+if [ ! -d log ]; then
+  mkdir -p log;
+fi
+
+if [ ! -f log/gpslogger.log ]; then
+  touch log/gpslogger.log;
+fi
+
+cd where-am-i
+# options
+LOGFILE=/home/gpslogger/log/gpslogger.log
+LOCKFILE=/var/lock/subsys/gpslogger
+/usr/bin/forever start -a -l $LOGFILE --spinSleepTime 60000 --uid gpslogger server.js
