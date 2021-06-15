@@ -18,7 +18,7 @@ async function run() {
    const path = new Path(pool);
    const point = new Point(pool);
 
-   const jobsMap = await allJobsMap(job);
+   let jobsMap = await allJobsMap(job);
    console.log(jobsMap);
 
    let seperator = __dirname.indexOf("/") > -1 ? "/" : "\\";
@@ -33,18 +33,18 @@ async function run() {
 
    app.all('/gpslogger/:job', async (req, res) => {
 
-      let job = jobsMap[req.params["job"]];
-      if (!job) {
-         res.status(500).send("No job named " + req.params["job"]);
-         return;
+      let map = jobsMap[req.params["job"]];
+      if (!map) {
+         await createJob(req.params["job"]);
+         jobsMap = await allJobsMap(job);
       }
 
       console.log(",\n" + JSON.stringify(req.query));
 
       try {
-         await journal.log(job, req.query);
+         await journal.log(map, req.query);
          res.status(200).send("OK");
-      } catch(e) {
+      } catch (e) {
          console.log(e);
          res.status(500).send(e);
       }
@@ -53,6 +53,10 @@ async function run() {
    app.all('/jobs', async (req, res) => {
       let jobs = await job.all();
       res.status(200).send(jobs);
+   });
+
+   app.all('/template', async (req, res) => {
+      res.status(200).send(config.gpsLogger.getTemplate.replace("${name}", req.query["job"]));
    });
 
    app.all('/paths/:job', (req, res) => {
@@ -100,18 +104,14 @@ async function run() {
    app.listen(port, function (err) {
       console.log("running server on port " + port);
    });
+
+   async function createJob(name) {
+      return await job.create(name);
+   }
 }
 
 async function allJobsMap(job) {
    const jobs = await job.all();
-   return jobs.reduce((acc, job) => {
-      console.log(job)
-      acc[job.name] = job;
-      return acc;
-   }, {});
-}
-
-async function createJob(job) {
    return jobs.reduce((acc, job) => {
       console.log(job)
       acc[job.name] = job;
