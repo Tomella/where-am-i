@@ -19,8 +19,8 @@ async function run() {
    return new Promise(function (resolve, reject) {
       const paths = path.build()
          .on("path", path => {
-            console.log("path", path.points[0].time_point.toLocaleString("en-GB") + " to " +
-               path.points[path.points.length - 1].time_point.toLocaleString());
+            console.log("path", path.points[0].time_point.toLocaleString("en-AU") + " to " +
+               path.points[path.points.length - 1].time_point.toLocaleString("en-AU"));
                buffer.push(path);
          })
          .on("error", error => {

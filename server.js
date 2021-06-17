@@ -64,7 +64,7 @@ async function run() {
       path.build(req.params["job"])
          .on("path", path => {
             console.log("path", path.points[0].time_point.toLocaleString("en-AU") + " to " +
-               path.points[path.points.length - 1].time_point.toLocaleString());
+               path.points[path.points.length - 1].time_point.toLocaleString("en-AU"));
             pathBuffer.push(path);
          })
          .on("error", error => {
@@ -82,7 +82,7 @@ async function run() {
       path.build(req.params["job"])
          .on("path", path => {
             console.log("path", path.points[0].time_point.toLocaleString("en-AU") + " to " +
-               path.points[path.points.length - 1].time_point.toLocaleString());
+               path.points[path.points.length - 1].time_point.toLocaleString("en-AU"));
             pathBuffer.push(path);
          })
          .on("error", error => {
