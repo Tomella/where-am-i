@@ -32,11 +32,12 @@ async function run() {
    app.use(express.static("web"));
 
    app.all('/gpslogger/:job', async (req, res) => {
-
-      let map = jobsMap[req.params["job"]];
+      let id = req.params.job;
+      let map = jobsMap[id];
       if (!map) {
-         await createJob(req.params["job"]);
+         await createJob(id);
          jobsMap = await allJobsMap(job);
+         map = jobsMap[id];
       }
 
       console.log(",\n" + JSON.stringify(req.query));
