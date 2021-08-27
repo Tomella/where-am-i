@@ -56,6 +56,11 @@ async function run() {
       res.status(200).send(jobs);
    });
 
+   app.all('/where', async (req, res) => {
+      let result = await point.last();
+      res.status(200).send(GeoJson.pointsToJson(result));
+   });
+
    app.all('/template', async (req, res) => {
       res.status(200).send(config.gpsLogger.getTemplate.replace("${name}", req.query["job"]));
    });
