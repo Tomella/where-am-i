@@ -20,6 +20,9 @@ customElements.define('gps-jobs', class GpsJobs extends HTMLElement {
       return this.shadowRoot && this.shadowRoot.querySelector(selector)
    }
 
+   $$(selector) {
+      return this.shadowRoot && this.shadowRoot.querySelectorAll(selector)
+   }
    constructor() {
       // Do something with the arguments
       super();
@@ -41,6 +44,7 @@ customElements.define('gps-jobs', class GpsJobs extends HTMLElement {
             let tag = document.createElement("gps-job");
             tag.innerHTML = "<span slot='name' style='font-size:130%'>" + job.name + "</span>";
             target.appendChild(tag);
+            tag.job = job;
          });
       }
    }
@@ -51,6 +55,17 @@ customElements.define('gps-jobs', class GpsJobs extends HTMLElement {
 
    get paths() {
       return this._paths;
+   }
+
+   set active(val) {
+      let jobs = this.$$("gps-job");
+      let job = Array.from(jobs).find(el => {
+         return el.job.id === val;
+      });
+
+      if(job) {
+         job.activate();
+      }
    }
 
    set paths(paths) {

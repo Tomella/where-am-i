@@ -9,9 +9,10 @@ let point = new Point(config.url, mapManager.map);
 
 point.run();
 
-
 let waiPanel = document.querySelector("wai-panel");
 
+
 document.addEventListener("position", (ev) => {
-    waiPanel.data = ev.detail;
+    let properties = ev.detail.properties;
+    waiPanel.innerHTML = "<a href='plots.html?job=" + properties.job_id + "'>" + properties.name + "</a>";
 });

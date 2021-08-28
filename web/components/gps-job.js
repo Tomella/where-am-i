@@ -70,4 +70,13 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
       const [node] = slot.assignedNodes();
       this.setAttribute('title', node.textContent)
    }
+
+   get job() {
+      return this._job;
+   }
+
+   activate() {
+      let a = this.$("a");
+      a.click();
+   }
 });

@@ -13,9 +13,9 @@ gpsjobs.addEventListener("jobexpand", (e) => {
 });
 
 let jobs = new Jobs(config.jobs);
-jobs.list().then(jobs => {
-   gpsjobs.jobs = jobs;
-});
+let results = await jobs.list();
+gpsjobs.jobs = results;
+
 
 let tracker = new Tracker(config.tracker, mapManager.map);
 
@@ -23,6 +23,11 @@ gpsjobs.addEventListener("jobtrack", (e) => {
    tracker[e.detail.track? "track": "stop"](e.detail.name);
 });
 
+let params = new URLSearchParams(document.location.search.substring(1));
+let job = params.get("job");
+if(job) {
+   gpsjobs.active = +job;
+}
 /*
 let features = new Features(config.featuresUrl);
 features.show(map.map).then(l => {

@@ -4,7 +4,7 @@ export default {
        options:  {
           center: [-34.454, 138.81],
           minZoom: 5,
-          zoom: 14,
+          zoom: 16,
           maxZoom: 20
        },
        layers: [
