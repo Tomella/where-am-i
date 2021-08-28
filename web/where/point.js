@@ -19,9 +19,20 @@ export default class Points {
       let response = await fetch(this.config.url);
       let data = await response.json();
 
-      if (this.layer) this.layer.remove();
 
       let latest = data.features[0];
+      console.log("latest", latest, this.lastTime)
+      if(this.lastTime && this.lastTime === latest.properties.time_point) {
+         this.lastTime = latest.properties.time_point;
+         return false;
+      }
+
+      document.dispatchEvent(new CustomEvent("position", {
+         detail: latest
+      }));
+
+      this.lastTime = latest.properties.time_point;
+      if (this.layer) this.layer.remove();
       this.last = latest.properties.name;
 
       this.layer = L.geoJSON(data, {
@@ -38,11 +49,11 @@ export default class Points {
 
    async run() {
       let pointsLoop = async () => {
-         let delay = 4000;
+         let delay = 8000;
          let result = await this.show();
          // If there hasn't been an update then extend the time to look.
          if (!result) {
-            delay = 20000;
+            delay = 40000;
          }
          this.timeOut = setTimeout(pointsLoop, delay);
       };
