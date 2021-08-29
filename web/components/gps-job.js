@@ -15,6 +15,10 @@ button {
     float: right;
     padding-right:12px;
  }
+ .disable {
+   pointer-events: none;
+   color:gray;
+ }
 </style>
 <div>
    <button >+</button>
@@ -52,13 +56,17 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
       let a = this.$("a");
       let aText = a.innerText;
       a.addEventListener('click', (e) => {
+         if(this._disabled === "disabled") {
+            return;
+         }
+
          let selected = a.innerText !== "[track]";
          a.innerHTML = selected ? "[track]" : "[stop tracking]";
 
          this.dispatchEvent(new CustomEvent("jobtrack", {
             composed: true,
             bubbles: true,
-            detail: {name: text, track: !selected}
+            detail: {name: text, track: !selected, target: this}
          }));
       });
    }
@@ -74,6 +82,16 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
    get job() {
       return this._job;
    }
+
+   set disabled(value) {
+      let classList = this.$("a").classList;
+      if(value === "disabled") {
+         classList.add("disable");
+      } else {
+         classList.remove("disable");
+      }
+      this._disabled = value;
+   } 
 
    activate() {
       let a = this.$("a");

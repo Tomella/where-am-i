@@ -9,14 +9,14 @@ export default class Tracker {
       this.colorIndex = -1;
    }
 
-   track(name) {
+   async track(name) {
       let track = this.stop(name);
       if(!track) {
          this.colorIndex = ++this.colorIndex % this.colorIndexLength;
          track = this.tracked[name] = new Points({...this.config,
             fillColor: this.config.colors[this.colorIndex]}, name, this.map);
       }
-      track.run();
+      let response = await track.run();
    }
 
    stop(name) {

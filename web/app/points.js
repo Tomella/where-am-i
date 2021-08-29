@@ -50,18 +50,19 @@ export default class Points {
    }
 
    async run() {
-      let pointsLoop = () => {
+      let pointsLoop = async () => {
          let delay = 2000;
-         this.show().then(result => {
+         try {
+            let result = await this.show();
             // If there hasn't been an update then extend the time to look.
             if (!result) {
                delay = 20000;
             }
-         }).finally(() => {
+         } finally {
             this.timeOut = setTimeout(pointsLoop, delay);
-         });
+         }
       };
-      pointsLoop();
+      await pointsLoop();
    }
 
    stop() {

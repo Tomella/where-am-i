@@ -19,8 +19,13 @@ gpsjobs.jobs = results;
 
 let tracker = new Tracker(config.tracker, mapManager.map);
 
-gpsjobs.addEventListener("jobtrack", (e) => {
-   tracker[e.detail.track? "track": "stop"](e.detail.name);
+gpsjobs.addEventListener("jobtrack", async (e) => {
+   e.detail.target.disabled = "disabled";
+   try {
+      await tracker[e.detail.track? "track": "stop"](e.detail.name);
+   } finally {
+      e.detail.target.disabled = "";
+   }
 });
 
 let params = new URLSearchParams(document.location.search.substring(1));
