@@ -50,19 +50,18 @@ export default class Points {
    }
 
    async run() {
-      let pointsLoop = async () => {
-         let delay = 2000;
+      let pointsLoop = async (delay = 4000) => {
          try {
             let result = await this.show();
             // If there hasn't been an update then extend the time to look.
             if (!result) {
-               delay = 20000;
+               delay = 30000;
             }
          } finally {
             this.timeOut = setTimeout(pointsLoop, delay);
          }
       };
-      await pointsLoop();
+      await pointsLoop(20000); //Some of the datasets are a bit big for the little server to process so give it some time.
    }
 
    stop() {
