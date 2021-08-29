@@ -5,11 +5,8 @@ export default class Features {
       this.url = url;
    }
 
-   show(map) {
-      return new Promise((resolve, reject) => {
-         loader(this.url).then(response => {
-            resolve(L.geoJSON(response).addTo(map));
-         });
-      });
+   async show(map) {
+      let response = await loader(this.url);
+      return L.geoJSON(response).addTo(map);
    }
 }
