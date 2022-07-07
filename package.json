@@ -41,7 +41,8 @@
     "mysql": "^2.16.0",
     "request": "^2.74.0",
     "unzipper": "^0.10.1",
-    "yargs": "^4.8.1"
+    "x2js": "^3.4.3",
+    "yargs": "^17.5.1"
   },
   "browserslist": [
     "last 1 version",

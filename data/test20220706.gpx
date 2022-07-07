@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gpx version="1.0" creator="GPSLogger 106 - http://gpslogger.mendhak.com/" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns="http://www.topografix.com/GPX/1/0" 
+		xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+	<time>2022-03-05T13:44:12.751Z</time>
+	<trk>
+		<trkseg>
+			<trkpt lat="-34.4557632" lon="138.81077">
+				<ele>200.0</ele>
+				<time>2022-03-05T13:44:12.751Z</time>
+				<src>network</src>
+			</trkpt>
+			<trkpt lat="-34.455884999999995" lon="138.81108">
+				<ele>193.2</ele>
+				<time>2022-03-05T14:30:36.000Z</time>
+				<course>0.0</course>
+				<speed>0.0</speed>
+				<src>gps</src>
+				<sat>3</sat>
+			</trkpt>
+			<trkpt lat="-34.455760000000005" lon="138.810325">
+				<ele>193.0</ele>
+				<time>2022-03-05T14:31:06.000Z</time>
+				<course>0.0</course>
+				<speed>0.0</speed>
+				<src>gps</src>
+				<sat>3</sat>
+			</trkpt>
+		</trkseg>
+	</trk>
+</gpx>

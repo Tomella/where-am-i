@@ -18,6 +18,9 @@ async function run() {
    let file = argv.file;
    console.log(file);
 
+   let job = argv.job;
+   job = job ? job : config.defaultJobname;
+
    if (!file) {
       console.log('Provide a filename like --file=fred.gpx');
       return true;
@@ -26,7 +29,9 @@ async function run() {
       return true;
    } else {
       let data = await readFileAsync(file);
+      console.log("Read file...");
       let track = x2js.xml2js(data.toString());
+      console.log("Converted to JSON...");
       if (!track || !track.gpx || !track.gpx.trk || !track.gpx.trk.trkseg || !track.gpx.trk.trkseg.trkpt) {
          console.log("That document is not like what was expected (gpx/trk/trkseg/trkpt).");
       } else {
@@ -64,19 +69,21 @@ async function run() {
             s: +speed
          }));
 
+         console.log("Ready to write...");
+         let i = 1;
          for (const record of records) {
-            const contents = await httpIt(record);
-            //console.log(contents);
+            const contents = await httpIt(job, record);
+            console.log("Processed record ", i++);
          }
       }
 
    }
 }
 
-async function httpIt(parameters) {
+async function httpIt(job, parameters) {
    const get_request_args = querystring.stringify(parameters);
 
-   const url = config.loggingUrl + get_request_args;
+   const url = config.loggingUrl.replace("{jobName}", job) + get_request_args;
 
    return new Promise(function (resolve, reject) {
       http.get(url, (res) => {
