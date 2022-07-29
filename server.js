@@ -56,6 +56,21 @@ async function run() {
       res.status(200).send(jobs);
    });
 
+
+   app.all('/dateSummary', async (req, res) => {
+      let summary = await point.dateSummary();
+      console.log(",\n" + JSON.stringify(summary));
+      let response = summary.map(entry => {
+         return { 
+            value: entry.value,
+            date: entry.day.getFullYear() + "-" + pad(entry.day.getMonth() + 1) + "-" + pad(entry.day.getDate())
+         }
+      });
+      
+      console.log(",\n" + JSON.stringify(response));
+      res.status(200).send(response);
+   });
+
    app.all('/where', async (req, res) => {
       let result = await point.last();
       res.status(200).send(GeoJson.pointsToJson(result));
@@ -114,6 +129,10 @@ async function run() {
    async function createJob(name) {
       return await job.create(name);
    }
+}
+
+function pad(num) {
+   return num > 9 ? num : "0" + num;
 }
 
 async function allJobsMap(job) {

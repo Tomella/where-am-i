@@ -5,6 +5,7 @@ export default class Map {
    create() {
       let config = this.config;
       this.map = L.map(config.id, config.options);
+      window.map = this.map;
       config.layers.forEach(layer => {
          this.addLayer(layer);
       });

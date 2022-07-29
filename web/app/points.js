@@ -41,7 +41,8 @@ export default class Points {
                opacity: feature.properties.opacity
             })
          }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
-         this.layer.addTo(this.map)
+         this.layer.addTo(this.map);
+         this.map.fitBounds(this.layer.getBounds(), {padding: [200,200]})
          this.map.panTo(latest.geometry.coordinates.reverse());
          return true;
       } else {

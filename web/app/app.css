@@ -5,15 +5,33 @@
   top: 0;
   bottom: 0;
 }
-#controls {
+
+#control-container {
   position: fixed;
   left: 10px;
   bottom: 10px;
+  top: 80px;
   width: 260px;
+}
+
+#control-header {
+  position: absolute;
+  top: 0;
+  width:100%;
+  height: 20px;
+}
+
+#controls {
+  position: absolute;
+  bottom: 0px;
   background-color: white;
   border: 2px solid #cccccc;
   background-clip: padding-box;
   border-radius: 4px;
+  margin-top: 20px;
+  max-height: 100%;
+  width:100%;
+  overflow-y:auto;
 }
 
 #where {
@@ -34,4 +52,14 @@ wai-panel {
   position: fixed;
   left: 30px;
   bottom: 30px;
+}
+
+
+wai-graph {
+  z-index: 90;
+  position: fixed;
+  bottom: 20px;
+  right:20px;
+  height: 220px;
+  left: 210px;
 }

@@ -2,13 +2,22 @@
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
+   .gps-container {
+      padding-top: 30px;
+   }
+
    .gps-jobs-heading {
+      position: absolute;
+      top: 0px;
       text-align: center;
       margin-block-start: .7em;
       margin-block-end: .33em;
    }
+   .gps-jobs-list {
+   
+   }
 </style>
-<div>
+<div class="gps-container">
    <h3 class="gps-jobs-heading">Jobs</h3>
    <div class="gps-jobs-list"></div>
 </div>
@@ -42,7 +51,7 @@ customElements.define('gps-jobs', class GpsJobs extends HTMLElement {
       if(jobs && jobs.length) {
          jobs.forEach(job => {
             let tag = document.createElement("gps-job");
-            tag.innerHTML = "<span slot='name' style='font-size:130%'>" + job.name + "</span>";
+            tag.job = job;
             target.appendChild(tag);
             tag.job = job;
          });

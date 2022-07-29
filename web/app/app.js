@@ -14,7 +14,7 @@ gpsjobs.addEventListener("jobexpand", (e) => {
 
 let jobs = new Jobs(config.jobs);
 let results = await jobs.list();
-gpsjobs.jobs = results;
+gpsjobs.jobs = results.reverse();
 
 
 let tracker = new Tracker(config.tracker, mapManager.map);
