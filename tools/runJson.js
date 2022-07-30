@@ -1,8 +1,12 @@
-const argv = require('yargs').argv;
-const fs = require('fs');
-const config = require("../lib/config");
-const http = require('https');
-const querystring = require('querystring');
+
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+const argv = yargs(hideBin(process.argv)).argv;
+
+import fs from "fs";
+import config from "../lib/config.js";
+import http from "https";
 
 run().then(() => {
    console.log("Finit");
@@ -18,13 +22,13 @@ async function run() {
 
 
    if (!file) {
-      console.log('Provide a filename like --file=fred.gpx');
+      console.log('Provide a filename like --file=fred.json');
       return true;
    } else if (!fs.existsSync(file)) {
       console.log('The file: ' + file + ' does\'s not exist.');
       return true;
    } else {
-      let records = require(file);
+      let records = JSON.parse(fs.readFileSync(file));
 
       //console.log(records);
       for (const record of records) {
@@ -35,7 +39,7 @@ async function run() {
 }
 
 async function httpIt(job, parameters) {
-   const get_request_args = querystring.stringify(parameters);
+   const get_request_args = new URLSearchParams(parameters).toString();
 
    const url = config.loggingUrl.replace("{jobName}", job) + get_request_args;
 

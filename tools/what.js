@@ -1,3 +1,3 @@
-let config = require("../lib/config");
+import config from "../lib/config.js";
 
 console.log(config)

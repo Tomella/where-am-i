@@ -1,8 +1,7 @@
+import config from "../lib/config.js";
+import mysql from "mysql";
 
-const config = require("../lib/config");
-const mysql = require("mysql");
-
-const Job = require("../lib/job");
+import Job from "../lib/job.js";
 
 run().then(() => console.log("Running")).then(() => {
     console.log("Finit");
@@ -17,6 +16,7 @@ async function run() {
 
     let response = await job.create("Spring21");
     console.log(response);
+    pool.end();
     return response;
 
 }

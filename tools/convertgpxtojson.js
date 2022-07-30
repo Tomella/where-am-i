@@ -1,10 +1,12 @@
-const argv = require('yargs').argv;
-const X2JS = require('x2js');
-const fs = require('fs');
-const config = require("../lib/config");
-const http = require('https');
-const querystring = require('querystring');
-const { promisify } = require('util');
+import X2JS from "x2js";
+import fs from "fs";
+import http from "https";
+import config from "../lib/config.js";
+import { promisify } from "util";
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+const argv = yargs(hideBin(process.argv)).argv;
 const readFileAsync = promisify(fs.readFile);
 
 run().then(() => {
@@ -13,10 +15,10 @@ run().then(() => {
 
 
 async function run() {
-   x2js = new X2JS();
+   let x2js = new X2JS();
 
    let file = argv.file;
-   console.log(file);
+   console.log(argv);
 
    let job = argv.job;
    job = job ? job : config.defaultJobname;
@@ -73,7 +75,7 @@ async function run() {
          let i = 1;
          for (const record of records) {
             const contents = await httpIt(job, record);
-            console.log("Processed record ", i++);
+            console.log("Processed record ", i++, contents);
          }
       }
 
@@ -81,7 +83,7 @@ async function run() {
 }
 
 async function httpIt(job, parameters) {
-   const get_request_args = querystring.stringify(parameters);
+   const get_request_args = new URLSearchParams(parameters).toString();
 
    const url = config.loggingUrl.replace("{jobName}", job) + get_request_args;
 

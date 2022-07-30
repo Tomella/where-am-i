@@ -1,6 +1,9 @@
-const argv = require("yargs")
-               .usage('Usage: $0 <file-name> [options]')
-               .argv;
+
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import fs from 'fs';
+
+const argv = yargs(hideBin(process.argv)).argv;
 
 console.log("name: ", argv._)
 
@@ -47,7 +50,6 @@ customElements.define('${NAME}', class ${CLASS_NAME} extends HTMLElement {
 });
 `;
 
-const fs = require('fs');
 const file_name = dir + "/" + NAME + ".js";
 
 if(fs.existsSync(file_name)) {

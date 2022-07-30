@@ -1,9 +1,9 @@
+import config from "../lib/config.js";
+import mysql from "mysql";
 
-const config = require("../lib/config");
-const mysql = require("mysql");
+import GeoJSON from "../lib/geojson.js";
+import Journal from "../lib/journal.js";
 
-const GeoJSON = require("../lib/geojson");
-const Journal = require("../lib/journal");
 let connection;
 
 run().then(() => {
@@ -12,15 +12,15 @@ run().then(() => {
 });
 
 async function run() {
-   connection = await createConnection(config.connection);
-   const journal = new Journal(connection);
+   let pool  = await createPool(config.connection);
+   const journal = new Journal(pool);
    const records = await journal.all();
    console.log(JSON.stringify(GeoJSON.journalJson(records), null,2));
 }
 
-async function createConnection(config) {
-   return new Promise((resolve) => {
-      const con = mysql.createConnection(config);
-      resolve(con);
+async function createPool(config) {
+  return new Promise((resolve, reject) => {
+      var pool = mysql.createPool(config);
+      resolve(pool);
    });
 }

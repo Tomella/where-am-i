@@ -20,12 +20,17 @@ button {
    color:gray;
  }
 
+ .sml_title {
+   font-weight: bold;
+ }
+
  .extra_detail {
-   margin-left: 15px;
-   border: 1px solid gray;
+   margin-left: 5px;
+   border-left: 1px solid gray;
+   border-bottom: 1px solid gray;
    margin-right: 10px;
    padding-left: 5px;
-   border-radius: 3px;
+   border-bottom-left-radius: 3px;
  }
 </style>
 <div>
@@ -33,14 +38,14 @@ button {
    <a href="javascript: return false" title="View where the last few point for this job. Hover over points for datestamp.">[track]</a>
 </div>
 <div hidden="hidden" class="extra_detail">
-   Dates: <span class="start_date"></span> to <span class="last_date"></span><br/>
-   Latitude:<br/>
+   <span class="sml_title">Dates:</span> <span class="start_date"></span> to <span class="last_date"></span><br/>
+   <span class="sml_title">Latitude:</span><br/>
    &nbsp;&nbsp;Min: <span class="miny"></span>&deg;<br/>
    &nbsp;&nbsp;Max: <span class="maxy"></span>&deg;<br/>
-   Longitude: <br/>
+   <span class="sml_title">Longitude:</span> <br/>
    &nbsp;&nbsp;Min: <span class="minx"></span>&deg;<br/>
    &nbsp;&nbsp;Max: <span class="maxx"></span>&deg;<br/>
-   Total points: <span class="points"></span>
+   <span class="sml_title">Total points:</span> <span class="points"></span>
 </div>
 `;
 
@@ -66,8 +71,10 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
          button.innerHTML = selected ? "-" : "+";
          if(selected) {
             this.$(".extra_detail").removeAttribute("hidden");
+            this.$("[name=name]").classList.add("sml_title");
          } else {
             this.$(".extra_detail").setAttribute("hidden", "hidden");
+            this.$("[name=name]").classList.remove("sml_title");
          }
 
       });
@@ -106,7 +113,7 @@ start_date: "2019-10-26T11:07:39.000Z"
       let startDate = new Date(value.start_date);
       let lastDate = new Date(value.last_date);
       value.selected = false;
-      this.$("[name=name").innerText = value.name;
+      this.$("[name=name]").innerText = value.name;
       this.$(".points").innerText  = value.points.toLocaleString("en-AU");
       this.$(".minx").innerText  = value.minx.toFixed(5);
       this.$(".maxx").innerText  = value.maxx.toFixed(5);

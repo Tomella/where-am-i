@@ -1,7 +1,6 @@
-const config = require("../lib/config");
-const mysql = require("mysql");
-const Path = require("../lib/path");
-const GeoJSON = require("../lib/geojson");
+import config from "./lib/config.js";
+import mysql from "mysql";
+import Path from "./lib/path.js";
 
 let connection;
 let buffer = [];

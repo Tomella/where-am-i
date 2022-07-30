@@ -1,13 +1,13 @@
-const express = require("express");
-const port = 3000;
-const config = require("./lib/config");
-const mysql = require("mysql");
+import express from "express";
+import config from "./lib/config.js";
+import mysql from "mysql";
+import Job from "./lib/job.js";
+import Journal from "./lib/journal.js";
+import Path from "./lib/path.js";
+import Point from "./lib/point.js";
+import GeoJson from "./lib/geojson.js";
 
-const Job = require("./lib/job");
-const Journal = require("./lib/journal");
-const Path = require("./lib/path");
-const Point = require("./lib/point");
-const GeoJson = require("./lib/geojson");
+const port = 3000;
 
 run().then(() => console.log("Running"));
 
@@ -21,10 +21,6 @@ async function run() {
    let jobsMap = await allJobsMap(job);
    console.log(jobsMap);
 
-   let seperator = __dirname.indexOf("/") > -1 ? "/" : "\\";
-   let appsRoot = __dirname.substr(0, __dirname.lastIndexOf(seperator));
-
-   //var httpProxy = require('http-proxy');
    var app = express();
 
    // serve static files
