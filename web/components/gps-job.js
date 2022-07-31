@@ -115,7 +115,9 @@ start_date: "2019-10-26T11:07:39.000Z"
       let startDate = new Date(value.start_date);
       let lastDate = new Date(value.last_date);
       value.selected = false;
-      this.$("[name=name]").innerText = value.name;
+      let name = this.$("[name=name]");
+      name.innerText = value.name;
+      name.title = startDate.toLocaleDateString() + " - " + lastDate.toLocaleDateString()
       this.$(".points").innerText  = value.points.toLocaleString("en-AU");
       this.$(".minx").innerText  = value.minx.toFixed(5);
       this.$(".maxx").innerText  = value.maxx.toFixed(5);
