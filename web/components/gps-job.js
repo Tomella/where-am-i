@@ -20,11 +20,12 @@ button {
    color:gray;
  }
 
- .sml_title {
-   font-weight: bold;
+ [name=name] {
+   font-size: 110%;
  }
 
  .extra_detail {
+   position: relative;
    margin-left: 5px;
    border-left: 1px solid gray;
    border-bottom: 1px solid gray;
@@ -34,7 +35,7 @@ button {
  }
 </style>
 <div>
-   <button>+</button><span name="name"></span>
+   <span class="jobhead" aria-role="button"><span class="expander">+</span>&nbsp;<span name="name"></span></span>
    <a href="javascript: return false" title="View where the last few point for this job. Hover over points for datestamp.">[track]</a>
 </div>
 <div hidden="hidden" class="extra_detail">
@@ -65,10 +66,11 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
    }
 
    connectedCallback() {
-      let button = this.$("button");
+      let button = this.$(".jobhead");
+      let expander = this.$(".expander");
       button.addEventListener('click', (e) => {
-         let selected = button.innerHTML === "+";
-         button.innerHTML = selected ? "-" : "+";
+         let selected = expander.innerHTML === "+";
+         expander.innerHTML = selected ? "-" : "+";
          if(selected) {
             this.$(".extra_detail").removeAttribute("hidden");
             this.$("[name=name]").classList.add("sml_title");
