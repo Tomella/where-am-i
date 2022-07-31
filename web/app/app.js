@@ -12,12 +12,17 @@ gpsjobs.addEventListener("jobexpand", (e) => {
    console.log("jobexpand", e);
 });
 
+
 let jobs = new Jobs(config.jobs);
 let results = await jobs.list();
 gpsjobs.jobs = results.reverse();
 
 
 let tracker = new Tracker(config.tracker, mapManager.map);
+
+gpsjobs.addEventListener("showextent", (e) => {
+   tracker.extent(e.detail);
+});
 
 gpsjobs.addEventListener("jobtrack", async (e) => {
    e.detail.target.disabled = "disabled";

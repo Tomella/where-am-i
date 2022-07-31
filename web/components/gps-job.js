@@ -33,6 +33,21 @@ button {
    padding-left: 5px;
    border-bottom-left-radius: 3px;
  }
+
+.sml_title {
+   color: darkblue;
+}
+
+ .show_extent {
+   position: absolute;
+   right: 0px;
+   bottom: 0px;
+   cursor: pointer;
+ }
+
+ .jobhead {
+   cursor: pointer;
+ }
 </style>
 <div>
    <span class="jobhead" aria-role="button"><span class="expander">+</span>&nbsp;<span name="name"></span></span>
@@ -47,6 +62,7 @@ button {
    &nbsp;&nbsp;Min: <span class="minx"></span>&deg;<br/>
    &nbsp;&nbsp;Max: <span class="maxx"></span>&deg;<br/>
    <span class="sml_title">Total points:</span> <span class="points"></span>
+   <span class="show_extent" role="button" title="Pan map to show entent of job."><gps-extent></gps-extent></span>
 </div>
 `;
 
@@ -95,6 +111,15 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
             detail: {name: this._job.name, track: !selected, target: this}
          }));
       });
+
+      let showExtent = this.$(".show_extent");
+      showExtent.addEventListener('click', (e) => {
+         this.dispatchEvent(new CustomEvent("showextent", {
+            composed: true,
+            bubbles: true,
+            detail: this._job
+         }));
+      });
    }
 
 
@@ -112,19 +137,21 @@ start_date: "2019-10-26T11:07:39.000Z"
    */
    set job(value) {
       this._job = value;
-      let startDate = new Date(value.start_date);
-      let lastDate = new Date(value.last_date);
-      value.selected = false;
+      let startDate = (new Date(value.start_date)).toLocaleDateString();
+      let lastDate = (new Date(value.last_date)).toLocaleDateString();
       let name = this.$("[name=name]");
+
+      value.selected = false;
       name.innerText = value.name;
-      name.title = startDate.toLocaleDateString() + " - " + lastDate.toLocaleDateString()
+      name.title = startDate + " - " + lastDate;
+
       this.$(".points").innerText  = value.points.toLocaleString("en-AU");
       this.$(".minx").innerText  = value.minx.toFixed(5);
       this.$(".maxx").innerText  = value.maxx.toFixed(5);
       this.$(".miny").innerText  = value.miny.toFixed(5);
       this.$(".maxy").innerText  = value.maxy.toFixed(5);
-      this.$(".start_date").innerText  = startDate.toLocaleDateString();
-      this.$(".last_date").innerText  = lastDate.toLocaleDateString();
+      this.$(".start_date").innerText  = startDate;
+      this.$(".last_date").innerText  = lastDate;
    }
 
    get job() {

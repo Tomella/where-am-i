@@ -42,7 +42,7 @@ export default class Points {
             })
          }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
          this.layer.addTo(this.map);
-         this.map.fitBounds(this.layer.getBounds(), {padding: [200,200]})
+         this.map.fitBounds(this.layer.getBounds(), {padding: [100,100]})
          this.map.panTo(latest.geometry.coordinates.reverse());
          return true;
       } else {
