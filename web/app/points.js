@@ -30,7 +30,7 @@ export default class Points {
          this.last = latest.properties.name;
 
          response.features = response.features.reverse().map((feature, index) => {
-            feature.properties.opacity = 0.1 + (index + 1) / count * 0.9 ;
+            feature.properties.opacity = 0.2 + (index + 1) / count * 0.7 ;
             return feature;
           });
 
