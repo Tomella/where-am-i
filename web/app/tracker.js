@@ -22,25 +22,25 @@ export default class Tracker {
 
    extent(details) {
       let bounds = [[details.miny, details.minx], [details.maxy, details.maxx]];
-      let rectangle = L.rectangle(bounds, {color: "#ff7800", weight: 1});
-      let opacity = 1;
+      let opacity = 0.5;
+      let rectangle = L.rectangle(bounds, {color: "#ff7800", weight: 10, opacity, fillOpacity: opacity});
 
       rectangle.addTo(this.map);
       this.map.fitBounds(bounds, {padding: [100,100]});
 
       let fader = () => {
-         if(opacity > 0.1) {
+         if(opacity > 0.01) {
             rectangle.setStyle({
                opacity: opacity,
-               fillOpacity: opacity / 5
+               fillOpacity: opacity
              });
              opacity -= 0.01;
-             setTimeout(fader, 20);
+             setTimeout(fader, 60);
          } else {
             rectangle.remove();
          }
       }
-      setTimeout(fader, 3000);
+      fader();
 
    }
 
