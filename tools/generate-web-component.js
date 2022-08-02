@@ -28,6 +28,11 @@ let CLASS_NAME = className;
 const template = `
 const template = document.createElement('template')
 template.innerHTML = \`
+   <style>
+      div: {
+         font-weight: bold;
+      }
+   </style>
    <div>Your HTML content goes here.</div>
 \`;
 
