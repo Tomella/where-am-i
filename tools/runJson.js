@@ -1,4 +1,3 @@
-
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -8,10 +7,8 @@ import fs from "fs";
 import config from "../lib/config.js";
 import http from "https";
 
-run().then(() => {
-   console.log("Finit");
-});
-
+await run();
+console.log("Finit");
 
 async function run() {
    let file = argv.file;

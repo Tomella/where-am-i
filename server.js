@@ -52,6 +52,11 @@ async function run() {
       res.status(200).send(jobs);
    });
 
+   app.all('/job/:id', async (req, res) => {
+      let id = req.params.id;
+      let data = await job.findById(+id);
+      res.status(200).send(data);
+   });
 
    app.all('/dateSummary', async (req, res) => {
       let summary = await point.dateSummary();
@@ -115,6 +120,13 @@ async function run() {
       const count = req.query["count"];
 
       let points = await point.get(req.params["job"], count ? count : 200);
+      res.status(200).send(GeoJson.pointsToJson(points));
+   });
+
+   app.all('/pointsById/:id', async (req, res) => {
+      const count = req.query["count"];
+
+      let points = await point.getById(+req.params["id"], count ? count : 200);
       res.status(200).send(GeoJson.pointsToJson(points));
    });
 

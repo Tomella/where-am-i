@@ -5,9 +5,14 @@ import Display from "./display.js";
 let mapManager = new Map(config.map);
 mapManager.create();
 
-let display = new Display(config.url, mapManager.map);
+
+let params = new URLSearchParams(document.location.search.substring(1));
+let job = params.get("job");
+
+let display = new Display(+job, config, mapManager.map);
 let waiGraph = document.querySelector("wai-graph");
 
-let summary = await display.fetch();
-waiGraph.data = summary;
+
+display.fetch();
+// waiGraph.data = summary;
 

@@ -19,6 +19,7 @@ export default {
           }
        ]
     },
-    url: "/dateSummary/"
+    jobUrl: "/job/",
+    pointsById: "/pointsById/"
  };
  

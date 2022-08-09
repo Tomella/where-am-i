@@ -1,18 +1,22 @@
 
- export default class Display {
-    constructor(url, map) {
-       this.config = {
-          url
-       };
-       this.map = map;
-    }
- 
-    async fetch() {
-       let response = await fetch(this.config.url);
-       let data = await response.json();
- 
-       return data;
-    }
+export default class Display {
+   constructor(id, config, map) {
+      this.id = id;
+      this.config = config;
+      this.map = map;
+   }
 
- }
- 
+   fetch() {
+      fetch(this.config.jobUrl + this.id).then(response => {
+         response.json().then(data => {
+            this.details = data;
+         });
+      });
+
+      fetch(this.config.pointsById + this.id).then(response => {
+         response.json().then(data => {
+            this.points = data;
+         });
+      });
+   }
+}
