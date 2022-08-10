@@ -9,7 +9,6 @@ const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-let elevation = null;
 let pool = null;
 
 try {
@@ -40,7 +39,7 @@ async function run() {
     */
 
     const journal = new Journal(pool);
-    let results = await journal.pageNeedingDem();
+    let results = await journal.pageNeedingDem(config.dem.recordsPerPage);
 
     console.log(results);
     let past = Date.now();

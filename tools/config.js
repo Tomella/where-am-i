@@ -6,7 +6,8 @@ export default {
        database: "logger3d"
     },
     dem: {
-        template: "https://api-elevation.fsdf.org.au/elevation-at-point?lat=$lat&long=$lng"
+        template: "https://api-elevation.fsdf.org.au/elevation-at-point?lat=$lat&long=$lng",
+        recordsPerPage: process.env.GPSLOGGER_RECORDS_PER_PAGE ? +process.env.GPSLOGGER_RECORDS_PER_PAGE : 20,
     },
     loggingUrl: "https://gpslogger.geospeedster.com/gpslogger/{jobName}?",
     defaultJobname: "Pending",
