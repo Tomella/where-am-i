@@ -50,13 +50,13 @@ async function run() {
 
         if (dem !== null) {
             await journal.updateDem(record.id, dem);
-            await sleep(100 + Math.random(500));
+            await sleep(3000);
         }
         if (i % 10 === 9) {
             let now = Date.now();
 
             let duration = now - past;
-            let t = Math.random() * 8000 + (duration> 120000 ? duration: 2000);
+            let t = howLong(duration);
             past = now + t; // We want to start the count
 
             console.log((duration / 1000) + "s for last (of " + (i + 1) + " records processed on this run " + ((now - start) / 1000) + "s)");
@@ -65,4 +65,16 @@ async function run() {
             await sleep(t);
         }
     }
+}
+
+function howLong(duration) {
+    if(duration < 40000) return 0;
+    if(duration < 60000) return 4000;
+    if(duration < 80000) return 8000;
+    if(duration < 100000) return 40000;
+    if(duration < 130000) return 90000;
+    if(duration < 150000) return 120000;
+    if(duration < 170000) return 180000;
+    if(duration < 200000) return 300000;
+    return 600000;
 }
