@@ -50,9 +50,9 @@ async function run() {
 
         if (dem !== null) {
             await journal.updateDem(record.id, dem);
-            await sleep(3000);
+            await sleep(1000);
         }
-        if (i % 10 === 9) {
+        if (i % 5 === 4) {
             let now = Date.now();
 
             let duration = now - past;
@@ -68,13 +68,13 @@ async function run() {
 }
 
 function howLong(duration) {
-    if(duration < 40000) return 0;
-    if(duration < 60000) return 4000;
-    if(duration < 80000) return 8000;
-    if(duration < 100000) return 40000;
-    if(duration < 130000) return 90000;
-    if(duration < 150000) return 120000;
-    if(duration < 170000) return 180000;
-    if(duration < 200000) return 300000;
+    if(duration < 15000) return 0;
+    if(duration < 20000) return 4000;
+    if(duration < 30000) return 10000;
+    if(duration < 40000) return 20000;
+    if(duration < 52000) return 50000;
+    if(duration < 68000) return 100000;
+    if(duration < 75000) return 150000;
+    if(duration < 98000) return 200000;
     return 600000;
 }
