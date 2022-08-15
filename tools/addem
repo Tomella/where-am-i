@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Should be home already but make sure.
+cd /home/gpslogger/where-am-i/tools
+
+/user/bin/node addem.js

@@ -61,7 +61,7 @@ async function run() {
 
             console.log((duration / 1000) + "s for last (of " + (i + 1) + " records processed on this run " + ((now - start) / 1000) + "s)");
             
-            console.log("sleeping " + Math.round(t/1000) + "s");
+            console.log("sleeping " + Math.round(t/1000) + "s at " + (new Date()).toLocaleTimeString());
             await sleep(t);
         }
     }
@@ -69,12 +69,12 @@ async function run() {
 
 function howLong(duration) {
     if(duration < 15000) return 0;
-    if(duration < 20000) return 4000;
-    if(duration < 30000) return 10000;
-    if(duration < 40000) return 20000;
-    if(duration < 52000) return 50000;
-    if(duration < 68000) return 100000;
-    if(duration < 75000) return 150000;
-    if(duration < 98000) return 200000;
-    return 600000;
+    if(duration < 20000) return 40;
+    if(duration < 30000) return 120;
+    if(duration < 40000) return 300;
+    if(duration < 52000) return 700;
+    if(duration < 68000) return 1200;
+    if(duration < 75000) return 1800;
+    if(duration < 98000) return 2400;
+    return 6000;
 }
