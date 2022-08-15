@@ -3,4 +3,4 @@
 # Should be home already but make sure.
 cd /home/gpslogger/where-am-i/tools
 
-/usr/bin/node addem.js
+/usr/bin/node adddem.js
