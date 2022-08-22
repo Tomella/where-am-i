@@ -29,11 +29,10 @@
     "url": "https://github.com/Tomella/where-am-i/issues"
   },
   "homepage": "http://web.geospeedster.com/where-am-i",
-  "devDependencies": {},
   "dependencies": {
     "express": "^4.18.1",
+    "mysql2": "^2.3.3",
     "node-fetch": "^3.2.10",
-    "mysql": "^2.18.1",
     "x2js": "^3.4.3",
     "yargs": "^17.5.1"
   },

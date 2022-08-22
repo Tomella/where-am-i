@@ -43,7 +43,8 @@ export default class Points {
          })
       }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
       this.layer.addTo(this.map)
-      this.map.panTo(latest.geometry.coordinates.reverse());
+      let coord = latest.geometry.coordinates;
+      this.map.panTo([coord[1], coord[0]]);
       return true;
    }
 

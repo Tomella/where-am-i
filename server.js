@@ -1,6 +1,6 @@
 import express from "express";
 import config from "./lib/config.js";
-import mysql from "mysql";
+import mysql from "mysql2/promise";
 import Job from "./lib/job.js";
 import Journal from "./lib/journal.js";
 import Path from "./lib/path.js";
@@ -12,12 +12,15 @@ const port = 3000;
 run().then(() => console.log("Running"));
 
 async function run() {
-   const pool = await createPool(config.connection);
+   console.log("What the!")
+   const pool = await mysql.createPool(config.connection);
+   console.log("What the 2!")
    const job = new Job(pool);
    const journal = new Journal(pool);
    const path = new Path(pool);
    const point = new Point(pool);
 
+   console.log("What the 3!")
    let jobsMap = await allJobsMap(job);
    console.log(jobsMap);
 
@@ -74,6 +77,7 @@ async function run() {
 
    app.all('/where', async (req, res) => {
       let result = await point.last();
+      console.log("WT!", result)
       res.status(200).send(GeoJson.pointsToJson(result));
    });
 
@@ -127,6 +131,7 @@ async function run() {
       const count = req.query["count"];
 
       let points = await point.getById(+req.params["id"], count ? count : 200);
+      console.log("WD", points);
       res.status(200).send(GeoJson.pointsToJson(points));
    });
 
@@ -150,11 +155,4 @@ async function allJobsMap(job) {
       acc[job.name] = job;
       return acc;
    }, {});
-}
-
-async function createPool(config) {
-   return new Promise((resolve, reject) => {
-      var pool = mysql.createPool(config);
-      resolve(pool);
-   });
 }
