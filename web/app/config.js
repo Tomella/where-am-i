@@ -22,7 +22,6 @@ export default {
    jobs: {
       listUrl: "jobs"
    },
-   featuresUrl: "paths/Walking",
    tracker: {
       url: "points/",
       count: 24000,

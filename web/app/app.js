@@ -38,16 +38,3 @@ let job = params.get("job");
 if(job) {
    gpsjobs.active = +job;
 }
-/*
-let features = new Features(config.featuresUrl);
-features.show(map.map).then(l => {
-   window.l = l;
-});
-
-let controls = new Controls(config.controls);
-let jobs = new Jobs(config.jobs);
-
-jobs.list().then(list => {
-   controls.state.jobs = list;
-});
-*/

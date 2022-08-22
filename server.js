@@ -77,7 +77,6 @@ async function run() {
 
    app.all('/where', async (req, res) => {
       let result = await point.last();
-      console.log("WT!", result)
       res.status(200).send(GeoJson.pointsToJson(result));
    });
 
@@ -99,24 +98,6 @@ async function run() {
          .on("end", end => {
             console.log("end");
             res.status(200).send(GeoJson.pathsJson(pathBuffer));
-         });
-   });
-
-
-   app.all('/pathsSummary/:job', (req, res) => {
-      const pathBuffer = [];
-      path.build(req.params["job"])
-         .on("path", path => {
-            console.log("path", path.points[0].time_point.toLocaleString("en-AU") + " to " +
-               path.points[path.points.length - 1].time_point.toLocaleString("en-AU"));
-            pathBuffer.push(path);
-         })
-         .on("error", error => {
-            console.log("error", error);
-         })
-         .on("end", end => {
-            console.log("end", pathBuffer);
-            res.status(200).send(pathBuffer);
          });
    });
 
