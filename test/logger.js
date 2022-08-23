@@ -1,4 +1,4 @@
-import config from "../lib/config.js";
+import config from "./lib/config.js";
 import mysql from "mysql2/promise";
 import Job from "../lib/job.js";
 import Journal from "../lib/journal.js";

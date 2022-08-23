@@ -1,6 +1,7 @@
 import express from "express";
 import config from "./lib/config.js";
 import mysql from "mysql2/promise";
+import Elevation from "./lib/elevation.js";
 import Job from "./lib/job.js";
 import Journal from "./lib/journal.js";
 import Path from "./lib/path.js";
@@ -19,6 +20,7 @@ async function run() {
    const journal = new Journal(pool);
    const path = new Path(pool);
    const point = new Point(pool);
+   const elevation = new Elevation(pool);
 
    console.log("What the 3!")
    let jobsMap = await allJobsMap(job);
@@ -116,6 +118,12 @@ async function run() {
       let points = await point.getById(+req.params["id"], count ? count : 200);
       console.log("WD", points);
       res.status(200).send(GeoJson.pointsToJson(points));
+   });
+
+   app.get('/elevationPoints',  async (req, res) => {
+      let points = await elevation.getAll();
+      console.log("WD", points);
+      res.status(200).send(points);
    });
 
    app.listen(port, function (err) {
