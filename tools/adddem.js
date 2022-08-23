@@ -2,7 +2,7 @@
 import Journal from '../lib/journal.js';
 import Elevation from '../lib/elevation.js';
 import config from "./config.js";
-import mysql from "mysql";
+import mysql from "mysql2/promise";
 
 const mapLocations = {};
 const sleep = (milliseconds) => {
@@ -17,17 +17,17 @@ try {
 } catch (err) {
     console.log("Something went wrong, ending pool.", err);
 } finally {
-    pool.end()
+    if(pool)
+       pool.end()
 };
 
 async function run() {
-    const LAT = -25.93987;
-    const LNG = 147.94942;
     pool = await mysql.createPool(config.connection);
-
 
     const elevation = new Elevation(pool, config.dem);
     /*    
+        const LAT = -25.93987;
+        const LNG = 147.94942;
         let dem = await elevation.getCached(LAT + 0.00005, LNG);
         console.log("Should be null:", dem);
     

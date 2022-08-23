@@ -31,18 +31,20 @@ async function run() {
    app.use(express.static("web"));
 
    app.all('/gpslogger/:job', async (req, res) => {
-      let id = req.params.job;
-      let map = jobsMap[id];
-      if (!map) {
-         await createJob(id);
-         jobsMap = await allJobsMap(job);
-         map = jobsMap[id];
+      let name = req.params.job;
+      let map = jobsMap[name];
+      let id = null;
+      if (map) {
+         id = map.id;
+      } else {
+         let entry = await createJob(id);
+         console.log("FFF", entry);
       }
 
       console.log(",\n" + JSON.stringify(req.query));
 
       try {
-         await journal.log(map, req.query);
+         await journal.log(id, req.query);
          res.status(200).send("OK");
       } catch (e) {
          console.log(e);
@@ -132,7 +134,6 @@ function pad(num) {
 async function allJobsMap(job) {
    const jobs = await job.all();
    return jobs.reduce((acc, job) => {
-      console.log(job)
       acc[job.name] = job;
       return acc;
    }, {});
