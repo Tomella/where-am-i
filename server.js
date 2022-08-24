@@ -13,18 +13,14 @@ const port = 3000;
 run().then(() => console.log("Running"));
 
 async function run() {
-   console.log("What the!")
    const pool = await mysql.createPool(config.connection);
-   console.log("What the 2!")
    const job = new Job(pool);
    const journal = new Journal(pool);
    const path = new Path(pool);
    const point = new Point(pool);
    const elevation = new Elevation(pool);
 
-   console.log("What the 3!")
    let jobsMap = await allJobsMap(job);
-   console.log(jobsMap);
 
    var app = express();
 
@@ -36,17 +32,23 @@ async function run() {
       let name = req.params.job;
       let map = jobsMap[name];
       let id = null;
-      if (map) {
-         id = map.id;
+      if (!map) {
+         id = await createJob(name);
       } else {
-         let entry = await createJob(id);
-         console.log("FFF", entry);
+         id = map.id;
       }
 
+      console.log("FFF", id);
       console.log(",\n" + JSON.stringify(req.query));
 
       try {
          await journal.log(id, req.query);
+
+         if(!map) {
+            jobsMap = await allJobsMap(job);
+         } else {
+            map.points += 1;
+         }
          res.status(200).send("OK");
       } catch (e) {
          console.log(e);
