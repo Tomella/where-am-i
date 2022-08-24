@@ -122,7 +122,6 @@ async function run() {
 
    app.get('/elevationPoints',  async (req, res) => {
       let points = await elevation.getAll();
-      console.log("WD", points);
       res.status(200).send(points);
    });
 
