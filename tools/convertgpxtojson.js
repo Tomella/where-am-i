@@ -9,6 +9,16 @@ import { hideBin } from 'yargs/helpers';
 const argv = yargs(hideBin(process.argv)).argv;
 const readFileAsync = promisify(fs.readFile);
 
+/*
+
+Usage: node convertgpxtojson --file=<path_to_gpx_file> --job=<job_name>
+
+Notes: 
+   . A point is unique by date time stamp. You can't be in two places at once. A duplicate is ignored.
+   . <job_name> will be created if it doesn't already exist.
+*/
+
+
 run().then(() => {
    console.log("Finit");
 });
