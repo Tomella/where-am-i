@@ -8,6 +8,9 @@ export default {
     dem: {
         template: "https://api-elevation.fsdf.org.au/elevation-at-point?lat=$lat&long=$lng",
         recordsPerPage: process.env.GPSLOGGER_RECORDS_PER_PAGE ? +process.env.GPSLOGGER_RECORDS_PER_PAGE : 20,
+        responseMappings: {
+            "-inf": -999
+        }
     },
     loggingUrl: "https://gpslogger.geospeedster.com/gpslogger/{jobName}?",
     defaultJobname: "Pending",
