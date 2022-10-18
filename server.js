@@ -61,6 +61,13 @@ async function run() {
       res.status(200).send(jobs);
    });
 
+   app.all('/countsByDay', async (req, res) => {
+      let id = req.params.id;
+      let data = await journal.countsByDay();
+      res.status(200).send(data);
+   });
+
+
    app.all('/job/:id', async (req, res) => {
       let id = req.params.id;
       let data = await job.findById(+id);
