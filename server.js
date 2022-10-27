@@ -18,7 +18,7 @@ async function run() {
    const journal = new Journal(pool);
    const path = new Path(pool);
    const point = new Point(pool);
-   const elevation = new Elevation(pool);
+   const elevation = new Elevation(pool, config.dem);
 
    let jobsMap = await allJobsMap(job);
 
@@ -132,6 +132,16 @@ async function run() {
    app.get('/elevationPoints',  async (req, res) => {
       let points = await elevation.getAll();
       res.status(200).send(points);
+   });
+
+   app.get('/elevationAtPoint',  async (req, res) => {
+      console.log("PARAMS", req.query);
+      try {
+         let height = await elevation.get(+req.query.lat, +req.query.lng);
+         res.status(200).send("" + height);
+      } catch(e) {
+         res.status(500).send("Whoops, were are the lat lng parameters.");
+      }
    });
 
    app.listen(port, function (err) {

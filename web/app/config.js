@@ -38,6 +38,9 @@ export default {
          "#fcfce6"
       ]
    },
+   elevationAtPoint: {
+      url: "/elevationAtPoint?lat=$lat&lng=&lng"
+   },
    controls: {
       id: "controls"
    }

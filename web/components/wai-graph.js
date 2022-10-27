@@ -43,14 +43,10 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
         let min = "9999-00-00"
         let max = "0000-00-00";
 
-
-        let data = values.reduce((acc, entry) => {
-            let date = entry.date;
+        let data = Object.keys(values).forEach((date) => {
             min = min < date ? min : date;
             max = max > date ? max : date;
-            acc[date] = entry.value;
-            return acc;
-        }, {});
+        });
 
         // We want the date past the last date.
         let date = new Date(max);
@@ -61,7 +57,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
         let it = dater(min, max);
         let entry = it.next();
         while (!entry.done) {
-            let realData = data[entry.value];
+            let realData = values[entry.value];
             result.push({ date: entry.value, value: realData ? realData : 0 });
             entry = it.next();
         }
@@ -96,6 +92,13 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .extent([[margin.left, 0], [width - margin.right, height]])
             .translateExtent([[margin.left, -Infinity], [width - margin.right, Infinity]])
             .on("zoom", zoomed).on("end", endZoom);
+
+
+            function zoomed(event) {
+                const xz = event.transform.rescaleX(x);
+                path.attr("d", area(data, xz));
+                let r = gx.call(xAxis, xz);
+        }
 
         const svg = d3.select(div).append("svg")
             .attr("viewBox", [0, 0, width, height]);
@@ -161,8 +164,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .duration(750);
 
         svg.on("click", function (ev) {
-            d3.select(this)
-                .style("background-color", "orange");
+            //d3.select(this).style("background-color", "orange");
 
             // Get current event info
             console.log(ev.valueOf());
@@ -176,13 +178,6 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
         var tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-
-        function zoomed(event) {
-            const xz = event.transform.rescaleX(x);
-            path.attr("d", area(data, xz));
-            let r = gx.call(xAxis, xz);
-
-        }
 
         return svg.node();
     }

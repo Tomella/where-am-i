@@ -61,5 +61,6 @@ wai-graph {
   bottom: 20px;
   right:20px;
   height: 220px;
-  left: 210px;
+  left: 20px;
+  opacity: 0.9;
 }

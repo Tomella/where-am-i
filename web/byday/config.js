@@ -19,7 +19,6 @@ export default {
           }
        ]
     },
-    jobUrl: "/job/",
-    pointsById: "/pointsById/"
+    countsUrl: "/countsByDay"
  };
  
