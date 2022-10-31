@@ -54,7 +54,6 @@ wai-panel {
   bottom: 30px;
 }
 
-
 wai-graph {
   z-index: 90;
   position: fixed;
@@ -63,4 +62,9 @@ wai-graph {
   height: 220px;
   left: 20px;
   opacity: 0.9;
+}
+
+.mouseposition {
+  font-weight: bold;
+  font-size: 110%;
 }

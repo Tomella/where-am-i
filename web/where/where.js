@@ -1,9 +1,13 @@
 import Map from "../app/map.js";
 import config from "./config.js";
 import Point from "./point.js";
+import Position from "../lib/position.js";
 
 let mapManager = new Map(config.map);
 mapManager.create();
+
+let position = new Position();
+map.addControl(position);
 
 let point = new Point(config.url, mapManager.map);
 

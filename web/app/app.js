@@ -2,9 +2,14 @@ import Map from "./map.js";
 import config from "./config.js";
 import Jobs from "./jobs.js";
 import Tracker from "./tracker.js";
+import Position from "../lib/position.js";
 
 let mapManager = new Map(config.map);
 mapManager.create();
+
+
+let position = new Position();
+map.addControl(position);
 
 let gpsjobs = document.querySelector("gps-jobs");
 
