@@ -73,12 +73,21 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
 
     render() {
         let dateRange = this.dateRange = {};
+        let lastXScale = null;
 
         let endZoom = ev => {
-            const xz = ev.transform.rescaleX(x);
-            dateRange.start = reverseGregorian(xz.domain()[0]);
-            dateRange.end = reverseGregorian(xz.domain()[1]);
+            const transform = ev.transform;
+            lastXScale = transform.rescaleX(x);
+            const domain = lastXScale.domain();
+            dateRange.start = reverseGregorian(domain[0]);
+            dateRange.end = reverseGregorian(domain[1]);
+
+           
             this.dispatchEvent(new CustomEvent('changedates', { detail: dateRange }));
+        }
+
+        let clicked = ev => {
+            console.log("CCLLL", ev)
         }
 
         const div = this.$(".container");
@@ -94,10 +103,10 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .on("zoom", zoomed).on("end", endZoom);
 
 
-            function zoomed(event) {
-                const xz = event.transform.rescaleX(x);
-                path.attr("d", area(data, xz));
-                let r = gx.call(xAxis, xz);
+        function zoomed(event) {
+            const xz = event.transform.rescaleX(x);
+            path.attr("d", area(data, xz));
+            let r = gx.call(xAxis, xz);
         }
 
         const svg = d3.select(div).append("svg")
@@ -116,7 +125,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .attr("height", height - margin.top - margin.bottom);
 
         let x = d3.scaleUtc()
-            .domain(d3.extent(data, d => new Date(d.date)))
+            .domain(d3.extent(data, d => new Date(d.date + "T00:00:00")))
             .range([margin.left, width - margin.right]);
 
         let y = d3.scaleSqrt()
@@ -131,7 +140,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .y1(d => y(d.value))(data);
 
 
-        let xAxis = (g, x) => g
+        let xAxis = lastXScale = (g, x) => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
             .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
 
@@ -163,14 +172,10 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .transition()
             .duration(750);
 
-        svg.on("click", function (ev) {
-            //d3.select(this).style("background-color", "orange");
-
-            // Get current event info
-            console.log(ev.valueOf());
-
-            // Get x & y co-ordinates
-            console.log(d3.pointer(ev));
+        svg.on("click", ev => {
+            let date = lastXScale.invert(ev.pageX);
+            date.setHours(date.getHours() - 16);  // I don't know why this arbitrary figure seems to fix up the scaling issue.
+            this.dispatchEvent(new CustomEvent('selectdate', { detail: date }));
         });
 
 

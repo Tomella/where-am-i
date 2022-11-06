@@ -35,7 +35,10 @@ export default {
          "#2a9bf7",
          "#ff0000",
          "#fffb00",
-         "#fcfce6"
+         "#fcfce6",
+         "#4cfce6",
+         "#6cfce6",
+         "#acfce6"
       ]
    },
    elevationAtPoint: {

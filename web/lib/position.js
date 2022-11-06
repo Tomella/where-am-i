@@ -1,7 +1,7 @@
 export default L.Control.extend({
     _container: null,
     options: {
-        position: 'topright'
+        position: 'bottomleft'
     },
 
     onAdd: function (map) {

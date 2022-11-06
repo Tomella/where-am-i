@@ -3,7 +3,7 @@ export default {
        id: "mapId",
        options:  {
           center: [-34.454, 138.81],
-          minZoom: 5,
+          minZoom: 4,
           zoom: 16,
           maxZoom: 19
        },

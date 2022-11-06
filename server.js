@@ -4,6 +4,7 @@ import mysql from "mysql2/promise";
 import Elevation from "./lib/elevation.js";
 import Job from "./lib/job.js";
 import Journal from "./lib/journal.js";
+//import ModRouter from ".server/modrouter.js";
 import Path from "./lib/path.js";
 import Point from "./lib/point.js";
 import GeoJson from "./lib/geojson.js";
@@ -14,6 +15,9 @@ run().then(() => console.log("Running"));
 
 async function run() {
    const pool = await mysql.createPool(config.connection);
+
+   //const modRouter = new ModRouter();
+
    const job = new Job(pool);
    const journal = new Journal(pool);
    const path = new Path(pool);
@@ -28,6 +32,9 @@ async function run() {
 
    app.use(express.static("web"));
 
+   app.use('/heightgraph', express.static('./node_modules/leaflet.heightgraph/dist'));
+
+   
    app.all('/gpslogger/:job', async (req, res) => {
       let name = req.params.job;
       let map = jobsMap[name];
@@ -125,6 +132,17 @@ async function run() {
       const count = req.query["count"];
 
       let points = await point.getById(+req.params["id"], count ? count : 200);
+      console.log("WD", points);
+      res.status(200).send(GeoJson.pointsToJson(points));
+   });
+
+
+   app.all('/pointsByDate/:year/:month/:date', async (req, res) => {
+      const count = req.query["count"];
+
+      let date = new Date(+req.params["year"], (+req.params["month"]) - 1, +req.params["date"]);
+
+      let points = await point.getByDate(date, count ? count : 4000);
       console.log("WD", points);
       res.status(200).send(GeoJson.pointsToJson(points));
    });

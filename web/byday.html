@@ -9,13 +9,18 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css"/><!-- Latest compiled and minified CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" crossorigin="anonymous">
       <link rel="stylesheet" href="app/app.css"/>
+      <link rel="stylesheet" href="heightgraph/L.Control.Heightgraph.min.css"/>
+
+      <script type="module" src="./components/wai-day-summary.js"></script>
       <script type="module" src="./components/wai-graph.js"></script>
    </head>
    <body>
       <div id="mapId"></div>
+      <wai-day-summary></wai-day-summary>
       <wai-graph></wai-graph>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"></script>
       <script src="https://d3js.org/d3.v7.min.js"></script>
+      <script type="text/javascript" src="https://giscience.github.io/Leaflet.Heightgraph/dist/L.Control.Heightgraph.min.js"></script>
       <script type="module" src="byday/byday.js"></script>
    </body>
 </html>
