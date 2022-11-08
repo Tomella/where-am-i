@@ -10,9 +10,20 @@ template.innerHTML = `
    height: 100%;
    background-color: rgb(255, 255, 255, 0.6);
 }
+.hide {
+    display: none;
+}
 
+.tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    width: 6em;
+}
 </style>
 <div class="container"></div>
+<span class="tooltip hide"></span>
 `;
 
 customElements.define('wai-graph', class GraphElement extends HTMLElement {
@@ -58,7 +69,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
         let entry = it.next();
         while (!entry.done) {
             let realData = values[entry.value];
-            result.push({ date: entry.value, value: realData ? realData : 0 });
+            result.push({ date: entry.value, value: (realData && realData.total) ? realData.total : 0 });
             entry = it.next();
         }
 
@@ -82,12 +93,8 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             dateRange.start = reverseGregorian(domain[0]);
             dateRange.end = reverseGregorian(domain[1]);
 
-           
-            this.dispatchEvent(new CustomEvent('changedates', { detail: dateRange }));
-        }
 
-        let clicked = ev => {
-            console.log("CCLLL", ev)
+            this.dispatchEvent(new CustomEvent('changedates', { detail: dateRange }));
         }
 
         const div = this.$(".container");
@@ -102,7 +109,6 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .translateExtent([[margin.left, -Infinity], [width - margin.right, Infinity]])
             .on("zoom", zoomed).on("end", endZoom);
 
-
         function zoomed(event) {
             const xz = event.transform.rescaleX(x);
             path.attr("d", area(data, xz));
@@ -111,8 +117,6 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
 
         const svg = d3.select(div).append("svg")
             .attr("viewBox", [0, 0, width, height]);
-
-
 
         const clip = uid("clip");
 
@@ -124,7 +128,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .attr("width", width - margin.left - margin.right)
             .attr("height", height - margin.top - margin.bottom);
 
-        let x = d3.scaleUtc()
+        let x = lastXScale = d3.scaleUtc()
             .domain(d3.extent(data, d => new Date(d.date + "T00:00:00")))
             .range([margin.left, width - margin.right]);
 
@@ -139,8 +143,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .y0(y(0))
             .y1(d => y(d.value))(data);
 
-
-        let xAxis = lastXScale = (g, x) => g
+        let xAxis = (g, x) => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
             .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
 
@@ -172,22 +175,48 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .transition()
             .duration(750);
 
-        svg.on("click", ev => {
-            let date = lastXScale.invert(ev.pageX);
-            date.setHours(date.getHours() - 16);  // I don't know why this arbitrary figure seems to fix up the scaling issue.
-            this.dispatchEvent(new CustomEvent('selectdate', { detail: date }));
-        });
+        let tip = this.$(".tooltip")
+        let mouseleave = () => {
+            tip.classList.add("hide");
+            tip.innerHTML = "";
+            this.dispatchEvent(new CustomEvent("preview", { detail: null }));
+        }
 
+        let lastHoverDate = null;
+        let mousemove = (ev) => {
+            if (lastXScale) {
+                let date = lastXScale.invert(ev.layerX);
+                let hoverDate = reverseGregorian(date);
+                let isNew = lastHoverDate != hoverDate;
+                lastHoverDate = hoverDate;
+                if(isNew) {
+                    this.dispatchEvent(new CustomEvent('preview', { detail: date }));
+                    tip.classList.remove("hide");
+                    tip.innerHTML = hoverDate.split("-").reverse().join("/");
+                    tip.style.left = (ev.layerX * 0.95) + "px";
+                    tip.style.top = (ev.layerY - 40) + "px"
+                }
+
+            } else {
+                tip.classList.add("hide");
+            }
+        }
+
+        let lastClickDate = null;
+        svg.on("click", ev => {
+            let date = lastXScale.invert(ev.layerX);
+            let reverseDate = reverseGregorian(date);
+            if(reverseDate != lastClickDate) this.dispatchEvent(new CustomEvent('selectdate', { detail: date }));
+            lastClickDate = reverseDate;
+        }).on("mousemove", mousemove).on("mouseleave", mouseleave);
 
         // Define the div for the tooltip
         var tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-
         return svg.node();
     }
 });
-
 
 function reverseGregorian(date) {
     return date.getFullYear() + "-" +
@@ -196,7 +225,6 @@ function reverseGregorian(date) {
 }
 
 function* dater(start, end) {
-
     let startDate = new Date(start);
     let endStr = end;
 

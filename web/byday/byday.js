@@ -94,6 +94,32 @@ let clearDate = () => {
 }
 
 waiGraph.addEventListener("selectdate", changeDate);
+waiGraph.addEventListener("preview", preview);
+
+let boundingBox = null;
+function preview(ev) {
+    if(boundingBox) {
+        boundingBox.remove();
+    }
+    
+    let show = ev.detail;
+    if(show) {
+        let dateData = data[DateHelper.reverseGregorian(show)];
+        if(dateData) {
+            console.log("What now:", dateData)
+
+            var bounds = [[dateData.minlat, dateData.minlng], [dateData.maxlat, dateData.maxlng]];
+            // create an orange rectangle
+            boundingBox = L.rectangle(bounds, {color: "#ff7878", weight: 6});
+            map.addLayer(boundingBox);
+        }
+    }
+
+    console.log(ev, show);
+
+
+}
+
 waiDaySummary.addEventListener("cancel", clearDate);
 waiDaySummary.addEventListener("first", showFirst);
 waiDaySummary.addEventListener("previous", showPrevious);

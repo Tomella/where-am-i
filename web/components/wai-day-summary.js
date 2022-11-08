@@ -6,12 +6,13 @@ template.innerHTML = `
     .wai-day-summary-wrapper {
         background-color: white;
         border: 2px solid rgba(0,0,0,0.2);
-        width: 14em;
+        border-radius: 4px;
+        width: 10em;
     }
     .wai-day-summary-heading {
         font-weight:bold;
         text-align: center;
-        font-size: 130%;
+        font-size: 120%;
     }
     .wai-day-summary-btn {
         font-weight:bold;
@@ -42,6 +43,7 @@ template.innerHTML = `
     }
     .btn-wrap {
         padding: 7px;
+        padding-top: 0;
         height: 2em;
     }
 

@@ -57,9 +57,8 @@ wai-panel {
 wai-day-summary {
   z-index: 90;
   position: fixed;
-  top: 7px;
+  top: 10px;
   left: 50px;
-  opacity: 0.7;
 }
 
 wai-graph {
