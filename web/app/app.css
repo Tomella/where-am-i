@@ -61,17 +61,12 @@ wai-day-summary {
   left: 50px;
 }
 
-wai-graph {
-  z-index: 90;
-  position: fixed;
-  bottom: 20px;
-  right:20px;
-  height: 220px;
-  left: 20px;
-  opacity: 0.7;
-}
-
 .mouseposition {
   font-weight: bold;
   font-size: 110%;
+  margin: -5px;
+}
+
+.leaflet-bottom {
+  margin-bottom: -7px;
 }

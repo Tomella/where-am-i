@@ -38,9 +38,11 @@ template.innerHTML = `
     .right-btns {
         float: right;
     }
+
     .left-btns {
         float: left;
     }
+
     .btn-wrap {
         padding: 7px;
         padding-top: 0;

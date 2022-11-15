@@ -2,27 +2,60 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <style>
-.container {
+.control {
+   z-index: 90;
    position: absolute;
-   left: 0;
-   top: 0;
-   right: 0;
-   height: 100%;
-   background-color: rgb(255, 255, 255, 0.6);
+   bottom: 210px;
+   right: 15px;
+   padding: 5px;
+   cursor: pointer;
+   font-size: 110%;
+   font-weight: bold; 
+   role="button"
+}
+
+.control-show {
+    z-index: 90;
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    padding: 3px 8px 3px 8px;
+    cursor: pointer;
+    font-size: 120%;
+    font-weight: bold; 
+    background-color: rgb(255, 255, 255, 0.8);
+    box-shadow: 0 1px 7px rgb(0 0 0 / 40%);
+    border-radius: 5px;
+ }
+ 
+.container {
+    z-index: 30;
+    position: fixed;
+    bottom: 20px;
+    right:10px;
+    height: 220px;
+    left: 10px;
+    background-color: rgb(255, 255, 255, 0.8);
+    border-radius: 8px;
 }
 .hide {
     display: none;
 }
 
 .tooltip {
+    z-index: 31;
     position: absolute;
     left: 0;
     top: 0;
     right: 0;
     width: 6em;
 }
+
+
 </style>
 <div class="container"></div>
+<span class="control" title="Hide graph of points per day." role="button">X</span>
+<span class="control-show hide" title="Show graph of points per day." role="button">&lt;</span>
 <span class="tooltip hide"></span>
 `;
 
@@ -44,6 +77,18 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
         // Normally you are adding the template
         const root = this.attachShadow({ mode: 'open' })
         root.appendChild(template.content.cloneNode(true));
+
+        this.$(".control").addEventListener("click", event => {
+            this.$(".container").classList.add("hide");
+            this.$(".control").classList.add("hide");
+            this.$(".control-show").classList.remove("hide");
+        });
+
+        this.$(".control-show").addEventListener("click", event => {
+            this.$(".container").classList.remove("hide");
+            this.$(".control").classList.remove("hide");
+            this.$(".control-show").classList.add("hide");
+        });
     }
 
     connectedCallback() {
@@ -189,12 +234,12 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
                 let hoverDate = reverseGregorian(date);
                 let isNew = lastHoverDate != hoverDate;
                 lastHoverDate = hoverDate;
-                if(isNew) {
+                if (isNew) {
                     this.dispatchEvent(new CustomEvent('preview', { detail: date }));
                     tip.classList.remove("hide");
                     tip.innerHTML = hoverDate.split("-").reverse().join("/");
-                    tip.style.left = (ev.layerX * 0.95) + "px";
-                    tip.style.top = (ev.layerY - 40) + "px"
+                    tip.style.left = (ev.x * 0.95) + "px";
+                    tip.style.top = (ev.y - 40) + "px"
                 }
 
             } else {
@@ -206,7 +251,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
         svg.on("click", ev => {
             let date = lastXScale.invert(ev.layerX);
             let reverseDate = reverseGregorian(date);
-            if(reverseDate != lastClickDate) this.dispatchEvent(new CustomEvent('selectdate', { detail: date }));
+            if (reverseDate != lastClickDate) this.dispatchEvent(new CustomEvent('selectdate', { detail: date }));
             lastClickDate = reverseDate;
         }).on("mousemove", mousemove).on("mouseleave", mouseleave);
 
