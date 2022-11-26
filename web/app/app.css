@@ -58,7 +58,16 @@ wai-day-summary {
   z-index: 90;
   position: fixed;
   top: 10px;
-  left: 50px;
+  left: 100px;
+  opacity: 0.9;
+}
+
+wai-menu {
+  z-index: 91;
+  position: fixed;
+  top: 10px;
+  left: 47px;
+  opacity: 0.8;
 }
 
 .mouseposition {
@@ -69,4 +78,8 @@ wai-day-summary {
 
 .leaflet-bottom {
   margin-bottom: -7px;
+}
+
+.mouseposition {
+  font-size: 150%;
 }
