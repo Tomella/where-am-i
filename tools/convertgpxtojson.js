@@ -72,7 +72,7 @@ async function run() {
                s: '0.0'
             */
          let records = track.gpx.trk.trkseg.trkpt.filter(e => e.src === "gps" && e.sat !== '0').map(({ sat, course, _lat, _lon, ele, time, speed }) => ({
-            sat: +sat,
+            sat: +sat?+sat:0,
             dir: +course,
             alt: +ele,
             lat: +_lat,
@@ -85,7 +85,7 @@ async function run() {
          let i = 1;
          for (const record of records) {
             const contents = await httpIt(job, record);
-            console.log("Processed record ", i++, contents);
+            console.log("Processed record ", i++, contents, record);
          }
       }
 
