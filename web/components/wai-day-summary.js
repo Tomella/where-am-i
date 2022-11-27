@@ -7,12 +7,12 @@ template.innerHTML = `
         background-color: white;
         border: 2px solid rgba(0,0,0,0.2);
         border-radius: 4px;
-        width: 10em;
+        width: 9em;
     }
     .wai-day-summary-heading {
         font-weight:bold;
         text-align: center;
-        font-size: 120%;
+        padding-top: 4px;
     }
     .wai-day-summary-btn {
         font-weight:bold;
