@@ -46,5 +46,17 @@ export default {
    },
    controls: {
       id: "controls"
-   }
+   },
+   menu: [
+      {
+         text: "View by day.",
+         title: "See summary by day, show day's path.",
+         href: "/byday.html"
+      },
+     {
+        text: "Last seen...",
+        title: "See where last seen.",
+        href: "/"
+     }
+   ]
 };

@@ -1,4 +1,5 @@
 import Map from "./map.js";
+import Menu from "../app/menu.js";
 import config from "./config.js";
 import Jobs from "./jobs.js";
 import Tracker from "./tracker.js";
@@ -7,6 +8,8 @@ import Position from "../lib/position.js";
 let mapManager = new Map(config.map);
 mapManager.create();
 
+let waiMenu = document.querySelector("wai-menu");
+let menu = new Menu(waiMenu, config.menu);
 
 let position = new Position();
 map.addControl(position);

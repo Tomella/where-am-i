@@ -19,6 +19,18 @@ export default {
           }
        ]
     },
-    url: "/where/"
+    url: "/where/",
+    menu: [
+      {
+         text: "View by day.",
+         title: "See summary by day, show day's path.",
+         href: "/byday.html"
+      },
+      {
+         text: "View by job.",
+         title: "Job names are allcoated generally over a number of days such as on a trip.",
+         href: "/plots.html"
+      }
+    ]
  };
  

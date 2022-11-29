@@ -2,6 +2,7 @@ import config from "./config.js";
 
 import Display from "./display.js";
 import Map from "../app/map.js";
+import Menu from "../app/menu.js";
 import Plotter from "./plotter.js";
 import Transformer from "./transformer.js";
 
@@ -17,6 +18,10 @@ let plotter = new Plotter(config.plotter, map);
 let display = new Display(config, mapManager.map);
 let waiGraph = document.querySelector("wai-graph");
 let waiDaySummary = document.querySelector("wai-day-summary");
+let waiMenu = document.querySelector("wai-menu");
+
+let menu = new Menu(waiMenu, config.menu);
+
 let heightGraph = null;
 
 

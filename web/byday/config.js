@@ -22,6 +22,18 @@ export default {
     plotter: { }, // Hmm, may want something somedays
     countsUrl: "/countsByDay",
     elevationUrl: "/elevationAtPoint?lat=$lat&lng=$lng",
-    dateUrl: "/pointsByDate/$year/$month/$date"
+    dateUrl: "/pointsByDate/$year/$month/$date",
+    menu: [
+      {
+         text: "Last seen...",
+         title: "See where last seen.",
+         href: "/"
+      },
+      {
+         text: "View by job.",
+         title: "Job names are allcoated generally over a number of days such as on a trip.",
+         href: "/plots.html"
+      }
+    ]
  };
  
