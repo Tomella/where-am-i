@@ -29,11 +29,14 @@ async function run() {
    var app = express();
 
    // serve static files
+   //app.use(express.static("web"));
 
-   app.use(express.static("web"));
-
-   app.use('/heightgraph', express.static('./node_modules/leaflet.heightgraph/dist'));
-
+   // Typically, we take some npma installed caode and allow them through as static content.
+   if(config.staticMappings) {
+      config.staticMappings.forEach(map => {
+         app.use(map.path, express.static(map.mapping));
+      })
+   }
    
    app.all('/gpslogger/:job', async (req, res) => {
       let name = req.params.job;

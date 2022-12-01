@@ -1,7 +1,7 @@
 {
   "name": "where-am-i",
   "version": "0.0.1",
-  "description": "Simple location logger",
+  "description": "Location logger by day, by job name and last seen.",
   "repository": "Tomella/where-am-i",
   "type": "module",
   "files": [
@@ -21,7 +21,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "locatio"
+    "location"
   ],
   "author": "Tomella",
   "license": "Apache-2.0",

@@ -7,6 +7,11 @@ export default {
           zoom: 16,
           maxZoom: 19
        },
+       measure: {
+         position: 'topleft',
+         measureControlTitleOn: 'Draw and measure lines.',  
+         measureControlTitleOff: 'Turn off measure.'  
+       },
        layers: [
           {
              type: "tileLayer",

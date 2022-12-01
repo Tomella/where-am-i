@@ -111,18 +111,12 @@ function preview(ev) {
     if(show) {
         let dateData = data[DateHelper.reverseGregorian(show)];
         if(dateData) {
-            console.log("What now:", dateData)
-
             var bounds = [[dateData.minlat, dateData.minlng], [dateData.maxlat, dateData.maxlng]];
             // create an orange rectangle
             boundingBox = L.rectangle(bounds, {color: "#ff7878", weight: 6});
             map.addLayer(boundingBox);
         }
     }
-
-    console.log(ev, show);
-
-
 }
 
 waiDaySummary.addEventListener("cancel", clearDate);
@@ -132,8 +126,13 @@ waiDaySummary.addEventListener("next", showNext);
 waiDaySummary.addEventListener("last", showLast);
 
 
-// We want to listen for a click on the map
+// We want to listen for a click on the map (but not while the measuring tool is active)
+let allowElevation = true;
+mapManager.on("measure-toggle", evt => {
+    allowElevation = !evt.detail.enabled;
+});
 map.on("click", async ev => {
+    if(!allowElevation) return;
     // console.log(ev.latlng);
     let url = config.elevationUrl.replace("$lat", ev.latlng.lat).replace("$lng", ev.latlng.lng);
 
