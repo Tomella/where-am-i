@@ -153,3 +153,10 @@ map.on("click", async ev => {
 
 let position = new Position();
 map.addControl(position);
+
+
+let params = new URLSearchParams(document.location.search.substring(1));
+let date = params.get("date");
+if(date) {
+    changeDateHandler(new Date(date));
+}

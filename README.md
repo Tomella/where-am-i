@@ -9,3 +9,23 @@ can be "plugged" from the saved gpx files that can be saved from gps logger.
 
 eg.
 `node convertgpxtojson.js --job=Spring22 --file=../../../gpslogger/com.mendhak.gpslogger/files/20221124.gpx`
+
+
+Web app
+
+Three pages:
+
+1 Where am I now? 
+url  /
+
+Shows the last recorded point on a leaflet map. Very simple.
+
+2 By job name
+url /plot.html?job=Summer21
+
+Shows jobs by job name. The optional job url parameter allows a job to the show without selecting from the list.
+
+3 By day
+url /byday.html?date=2022-12-03
+
+Shot points on a particular day. The optional date parameter allow a date's point to be shown without selecting from graph.
