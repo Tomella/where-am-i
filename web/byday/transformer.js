@@ -7,7 +7,7 @@ export default class Transformer {
                 type: "Feature",
                 geometry: {
                     type: "LineString",
-                    coordinates: data.features.reduce((acc, feature) => {
+                    coordinates: data.features.filter(el => el.geometry.coordinates[2] > -89).reduce((acc, feature) => {
                         acc.push(feature.geometry.coordinates);
                         return acc;
                     }, [])
