@@ -40,7 +40,14 @@ let changeDate = async (ev) => {
 }
 
 let changeDateHandler = async (date) => {
+    // Chsnge the url so a change of date can be book marked
+    let dateStr = DateHelper.reverseGregorian(date);
+    const url = new URL(window.location);
+    url.searchParams.set('date', dateStr);
+    window.history.pushState(null, '', url.toString());
+
     let response = await fetch(config.dateUrl.replace("$year", date.getFullYear()).replace("$month", date.getMonth() + 1).replace("$date", date.getDate()));
+    
     let json = await response.json();
     plotter.show(json);
 
