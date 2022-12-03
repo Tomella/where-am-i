@@ -19,7 +19,7 @@ export default class Transformer {
             properties: {
                 Creator: "GeoSpeedster.com",
                 records: 2,
-                summary: "Day's points"
+                summary: attributeType.substr(6)
             }
         }];
     }

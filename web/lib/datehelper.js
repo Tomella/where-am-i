@@ -5,6 +5,7 @@ export default class {
             String(date.getDate()).padStart(2, 0);
     }
 
+    // We only care about the string comparison
     static compare(date1, date2) {
         let d1 = this.reverseGregorian(date1);
         let d2 = this.reverseGregorian(date2);

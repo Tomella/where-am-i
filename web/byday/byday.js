@@ -40,7 +40,7 @@ let changeDate = async (ev) => {
 }
 
 let changeDateHandler = async (date) => {
-    // Chsnge the url so a change of date can be book marked
+    // Change the url so a change of date can be book marked
     let dateStr = DateHelper.reverseGregorian(date);
     const url = new URL(window.location);
     url.searchParams.set('date', dateStr);
@@ -58,9 +58,7 @@ let changeDateHandler = async (date) => {
     waiDaySummary.data = null;
 
     if (json && json.features && json.features.length) {
-        heightGraph = L.control.heightgraph({
-            position: "topright"
-        });
+        heightGraph = L.control.heightgraph(config.heightGraph);
         heightGraph.addTo(map);
         heightGraph.addData(Transformer.pointsToLinestring(json));
         waiDaySummary.data = {

@@ -24,6 +24,16 @@ export default {
           }
        ]
     },
+    heightGraph:{
+      position: "topright",
+      translation: {
+         distance: "Distance",
+         elevation: "Elevation",
+         segment_length: "Segment length",
+         type: "Type",
+         legend: "Elevation for points on:"
+      }
+   },
     plotter: { }, // Hmm, may want something somedays
     countsUrl: "/countsByDay",
     elevationUrl: "/elevationAtPoint?lat=$lat&lng=$lng",
