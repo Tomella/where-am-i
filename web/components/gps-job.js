@@ -25,12 +25,14 @@ button {
  }
 
  .extra_detail {
+   font-size: 90%;
    position: relative;
    margin-left: 5px;
    border-left: 1px solid gray;
    border-bottom: 1px solid gray;
    margin-right: 10px;
    padding-left: 5px;
+   margin-bottom: 7px;
    border-bottom-left-radius: 3px;
  }
 

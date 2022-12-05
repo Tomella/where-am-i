@@ -5,27 +5,27 @@ TODO: We don't take to much attention to jobs with too many points. It works  OK
 be a point where the poor old browser will bog down.
 
 Sometimes there are gaps in data, where there is no cellular reception and the data is not succesfully sent. The holes
-can be "plugged" from the saved gpx files that can be saved from gps logger.
+can be "plugged" from saved gpx files that can be saved with gps logger.
 
 eg.
-`node convertgpxtojson.js --job=Spring22 --file=../../../gpslogger/com.mendhak.gpslogger/files/20221124.gpx`
+`node convertgpxtojson.js --job=Spring22 --file=../../../gpslogger/com.mendhak.gpslogger/files/20221111.gpx`
 
 
-Web app
+# Web app
 
 Three pages:
 
-1 Where am I now? 
-url  /
+## 1 Where am I now? 
+url  `/`
 
 Shows the last recorded point on a leaflet map. Very simple.
 
-2 By job name
-url /plot.html?job=Summer21
+## 2 By job name
+url `/plot.html?job=Summer21`
 
-Shows jobs by job name. The optional job url parameter allows a job to the show without selecting from the list.
+Shows points by job name. The optional job url parameter allows a job to show without selecting from the list.
 
-3 By day
-url /byday.html?date=2022-12-03
+## 3 By day
+url `/byday.html?date=2022-12-03`
 
-Shot points on a particular day. The optional date parameter allow a date's point to be shown without selecting from graph.
+Show points on a particular day. The optional date parameter allow a date's points to be shown without selecting from graph.

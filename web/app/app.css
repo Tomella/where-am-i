@@ -14,7 +14,7 @@ body {
   position: fixed;
   left: 10px;
   bottom: 20px;
-  top: 80px;
+  top: 144px;
   width: 260px;
 }
 
@@ -31,7 +31,8 @@ body {
   background-color: white;
   border: 2px solid #cccccc;
   background-clip: padding-box;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 5px;
   margin-top: 20px;
   max-height: 100%;
   width:100%;
@@ -80,4 +81,25 @@ wai-menu {
 
 .leaflet-bottom {
   margin-bottom: -7px;
+}
+
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
 }
