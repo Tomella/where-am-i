@@ -49,6 +49,10 @@ template.innerHTML = `
     top: 0;
     right: 0;
     width: 6em;
+    background-color:white;
+    border-radius: 8px;
+    padding:4px;
+    box-shadow: 0 1px 7px rgb(0 0 0 / 40%);
 }
 
 
@@ -62,6 +66,7 @@ template.innerHTML = `
 customElements.define('wai-graph', class GraphElement extends HTMLElement {
 
     #data = null;
+    #map = null;
 
     $(selector) {
         return this.shadowRoot && this.shadowRoot.querySelector(selector)
@@ -96,6 +101,8 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
     }
 
     set data(values) {
+        this.#map = values;
+
         let min = "9999-00-00"
         let max = "0000-00-00";
 
@@ -234,12 +241,13 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
                 let hoverDate = reverseGregorian(date);
                 let isNew = lastHoverDate != hoverDate;
                 lastHoverDate = hoverDate;
+                let line2 = "<br/>" + (this.#map[hoverDate] ? this.#map[hoverDate].total : "No") + " points";
                 if (isNew) {
                     this.dispatchEvent(new CustomEvent('preview', { detail: date }));
                     tip.classList.remove("hide");
-                    tip.innerHTML = hoverDate.split("-").reverse().join("/");
+                    tip.innerHTML = hoverDate.split("-").reverse().join("/") + line2;
                     tip.style.left = (ev.x * 0.95) + "px";
-                    tip.style.top = (ev.y - 40) + "px"
+                    tip.style.top = (ev.y - 65) + "px"
                 }
 
             } else {
