@@ -48,7 +48,6 @@ async function run() {
          id = map.id;
       }
 
-      console.log("FFF", id);
       console.log(",\n" + JSON.stringify(req.query));
 
       try {
