@@ -1,7 +1,7 @@
 import Map from "./map.js";
 import Menu from "../app/menu.js";
 import config from "./config.js";
-import Jobs from "./jobs.js";
+import Jobs from "../lib/jobs.js";
 import Tracker from "./tracker.js";
 import Position from "../lib/position.js";
 

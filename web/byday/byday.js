@@ -1,6 +1,7 @@
 import config from "./config.js";
 
 import Display from "./display.js";
+import Jobs from "../lib/jobs.js";
 import Map from "../app/map.js";
 import Menu from "../app/menu.js";
 import Plotter from "./plotter.js";
@@ -12,7 +13,8 @@ import Position from "../lib/position.js";
 let mapManager = new Map(config.map);
 mapManager.create();
 let map = mapManager.map;
-
+let jobs = new Jobs(config.jobs);
+let jobsList = await jobs.list();
 let plotter = new Plotter(config.plotter, map);
 
 let display = new Display(config, mapManager.map);
@@ -107,19 +109,29 @@ waiGraph.addEventListener("selectdate", changeDate);
 waiGraph.addEventListener("preview", preview);
 
 let boundingBox = null;
-function preview(ev) {
+async function preview(ev) {
     if(boundingBox) {
         boundingBox.remove();
     }
     
     let show = ev.detail;
+    let version = 0;
     if(show) {
-        let dateData = data[DateHelper.reverseGregorian(show)];
+        version++;
+
+        let localVersion = version;
+        let dateStr = DateHelper.reverseGregorian(show.date);
+        let dateData = data[dateStr];
         if(dateData) {
             var bounds = [[dateData.minlat, dateData.minlng], [dateData.maxlat, dateData.maxlng]];
             // create an orange rectangle
             boundingBox = L.rectangle(bounds, {color: "#ff7878", weight: 6});
             map.addLayer(boundingBox);
+            
+            let matches = await jobs.find(dateStr);
+            if(localVersion == version) {
+                show.target.innerHTML = matches.map(el => el.job.name).join("<br/>")
+            }
         }
     }
 }

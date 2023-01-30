@@ -1,4 +1,4 @@
-import loader from "./loader.js";
+import loader from "../lib/loader.js";
 
 export default class Features {
    constructor(url) {

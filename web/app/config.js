@@ -1,6 +1,7 @@
 export default {
    map: {
       id: "mapId",
+      scale: {imperial: false},
       options:  {
          center: [-34.454, 138.81],
          minZoom: 5,

@@ -1,6 +1,7 @@
 export default {
     map: {
        id: "mapId",
+       scale: {imperial: false},
        options:  {
           center: [-34.454, 138.81],
           minZoom: 4,
@@ -26,6 +27,11 @@ export default {
     },
     heightGraph:{
       position: "topright",
+      highlightStyle: {
+         weight: 4,
+         opacity: 0.7,
+         color: 'black'
+      },
       translation: {
          distance: "Distance",
          elevation: "Elevation",
@@ -38,6 +44,10 @@ export default {
     countsUrl: "/countsByDay",
     elevationUrl: "/elevationAtPoint?lat=$lat&lng=$lng",
     dateUrl: "/pointsByDate/$year/$month/$date",
+    jobs: {
+       listUrl: "jobs",
+       jobsForDate: "/jobsForDate/$year/$month/$date"
+    },
     menu: [
       {
          text: "Last seen...",

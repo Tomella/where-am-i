@@ -149,6 +149,12 @@ async function run() {
       res.status(200).send(GeoJson.pointsToJson(points));
    });
 
+   app.get('/jobsForDate/:year/:month/:date', async (req, res) => {
+      let date = new Date(+req.params["year"], (+req.params["month"]) - 1, +req.params["date"]);
+      let data = await journal.countsForDay(date);
+      res.status(200).send(data);
+   });
+
    app.get('/elevationPoints',  async (req, res) => {
       let points = await elevation.getAll();
       res.status(200).send(points);

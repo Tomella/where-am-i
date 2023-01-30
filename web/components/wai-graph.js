@@ -47,20 +47,25 @@ template.innerHTML = `
     position: absolute;
     left: 0;
     top: 0;
-    right: 0;
-    width: 6em;
+    min-width: 7em;
     background-color:white;
     border-radius: 8px;
     padding:4px;
     box-shadow: 0 1px 7px rgb(0 0 0 / 40%);
 }
 
+.tooltip2 {
+    white-space: nowrap;
+}
 
 </style>
 <div class="container"></div>
 <span class="control" title="Hide graph of points per day." role="button">X</span>
 <span class="control-show hide" title="Show graph of points per day." role="button">&lt;</span>
-<span class="tooltip hide"></span>
+<span class="tooltip hide">
+    <div class="tooltip1"></div>
+    <div class="tooltip2"></div>
+</span>
 `;
 
 customElements.define('wai-graph', class GraphElement extends HTMLElement {
@@ -94,6 +99,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             this.$(".control").classList.remove("hide");
             this.$(".control-show").classList.add("hide");
         });
+
     }
 
     connectedCallback() {
@@ -227,10 +233,14 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
             .transition()
             .duration(750);
 
-        let tip = this.$(".tooltip")
+        let tip = this.$(".tooltip");
+        let tip1 = this.$(".tooltip1");
+        let tip2 = this.$(".tooltip2");
+        
         let mouseleave = () => {
             tip.classList.add("hide");
-            tip.innerHTML = "";
+            tip1.innerHTML = "";
+            tip2.innerHTML = "";
             this.dispatchEvent(new CustomEvent("preview", { detail: null }));
         }
 
@@ -243,11 +253,12 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
                 lastHoverDate = hoverDate;
                 let line2 = "<br/>" + (this.#map[hoverDate] ? this.#map[hoverDate].total : "No") + " points";
                 if (isNew) {
-                    this.dispatchEvent(new CustomEvent('preview', { detail: date }));
                     tip.classList.remove("hide");
-                    tip.innerHTML = hoverDate.split("-").reverse().join("/") + line2;
-                    tip.style.left = (ev.x * 0.95) + "px";
-                    tip.style.top = (ev.y - 65) + "px"
+                    tip2.innerHTML = "";
+                    tip1.innerHTML = hoverDate.split("-").reverse().join("/") + line2;
+                    tip.style.left = (ev.x * 0.9) + "px";
+                    tip.style.top = (ev.y - 95) + "px";
+                    this.dispatchEvent(new CustomEvent('preview', { detail: {date, target: tip2 }}));
                 }
 
             } else {

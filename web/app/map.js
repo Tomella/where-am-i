@@ -13,6 +13,10 @@ export default class Map extends Eventer {
          this.addLayer(layer);
       });
 
+      if(config.scale) {
+         L.control.scale(config.scale).addTo(this.map);
+      }
+
       if(config.measure) {
          L.control.polylineMeasure(config.measure).addTo(this.map);
          this.map.on('polylinemeasure:start', currentLine => {
