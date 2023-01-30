@@ -30,12 +30,12 @@
   },
   "homepage": "http://web.geospeedster.com/where-am-i",
   "dependencies": {
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "leaflet.heightgraph": "^1.4.0",
-    "mysql2": "^2.3.3",
-    "node-fetch": "^3.2.10",
-    "x2js": "^3.4.3",
-    "yargs": "^17.5.1"
+    "mysql2": "^3.1.0",
+    "node-fetch": "^3.3.0",
+    "x2js": "^3.4.4",
+    "yargs": "^17.6.2"
   },
   "browserslist": [
     "last 1 version",
