@@ -166,6 +166,7 @@ async function run() {
          let height = await elevation.get(+req.query.lat, +req.query.lng);
          res.status(200).send("" + height);
       } catch(e) {
+         console.log(e)
          res.status(500).send("Whoops, were are the lat lng parameters.");
       }
    });
