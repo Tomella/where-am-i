@@ -22,7 +22,7 @@ try {
 };
 
 async function run() {
-    pool = await mysql.createPool(config.connection);
+    pool = mysql.createPool(config.connection);
 
     const elevation = new Elevation(pool, config.dem);
     /*    

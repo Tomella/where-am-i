@@ -23,5 +23,5 @@ let menu = new Menu(waiMenu, config.menu);
 document.addEventListener("position", (ev) => {
     let properties = ev.detail.properties;
     let dateStr = properties.time_point ? properties.time_point.substr(0, 10) : "";
-    waiPanel.innerHTML = "<a href='byday.html?date=" + properties.time_point.substr(0, 10) + "' title='View all points on this date.'>" + properties.name + "</a>";
+    waiPanel.innerHTML = `<a href='byday.html?date=${properties.time_point.substr(0, 10)}' title='View all points on this date.'>${properties.name}</a>`;
 });
