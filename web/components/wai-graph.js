@@ -31,7 +31,7 @@ template.innerHTML = `
 .container {
     z-index: 30;
     position: fixed;
-    bottom: 20px;
+    bottom: 30px;
     right:10px;
     height: 220px;
     left: 10px;
