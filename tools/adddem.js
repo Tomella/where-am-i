@@ -1,7 +1,8 @@
 
-import Journal from '../lib/journal.js';
-import Elevation from '../lib/elevation.js';
 import config from "./config.js";
+import DeltaTime from '../lib/deltatime.js';
+import Elevation from '../lib/elevation.js';
+import Journal from '../lib/journal.js';
 import mysql from "mysql2/promise";
 
 const mapLocations = {};
@@ -42,8 +43,7 @@ async function run() {
     let results = await journal.pageNeedingDem(config.dem.recordsPerPage);
 
     console.log(results);
-    let past = Date.now();
-    let start = past;
+    let timer = new DeltaTime();
     for (let i = 0; i < results.length; i++) {
         let record = results[i];
         let dem = await elevation.get(record.latitude, record.longitude);
@@ -53,18 +53,18 @@ async function run() {
             await sleep(1000);
         }
         if (i % 5 === 4) {
-            let now = Date.now();
+			let delta = timer.tick();
+            let t = howLong(delta);
 
-            let duration = now - past;
-            let t = howLong(duration);
-            past = now + t; // We want to start the count
-
-            console.log((duration / 1000) + "s for last (of " + (i + 1) + " records processed on this run " + ((now - start) / 1000) + "s)");
+            console.log((delta / 1000) + "s for last " + (i + 1) + " records processed on this run " + (timer.age / 1000) + "s");
             
             console.log("sleeping " + Math.round(t/1000) + "s at " + (new Date()).toLocaleTimeString());
             await sleep(t);
         }
     }
+    
+    let delta = timer.tick();
+    console.log((delta / 1000) + "s for " + results.length + " records processed on this run " + (timer.age / 1000) + "s");
 }
 
 function howLong(duration) {
