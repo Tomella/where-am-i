@@ -25,6 +25,9 @@ export default {
        ]
     },
     url: "/where/",
+    elevation: {
+       url: "/elevationAtPoint?lat=$lat&lng=$lng"
+    },
     menu: [
       {
          text: "View by day.",

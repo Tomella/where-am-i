@@ -1,6 +1,7 @@
+import config from "./config.js";
+import Elevation from "../lib/elevation.js";
 import Map from "../app/map.js";
 import Menu from "../app/menu.js";
-import config from "./config.js";
 import Point from "./point.js";
 import Position from "../lib/position.js";
 
@@ -25,3 +26,5 @@ document.addEventListener("position", (ev) => {
     let dateStr = properties.time_point ? properties.time_point.substr(0, 10) : "";
     waiPanel.innerHTML = `<a href='byday.html?date=${properties.time_point.substr(0, 10)}' title='View all points on this date.'>${properties.name}</a>`;
 });
+
+let elevation = new Elevation(map, config.elevation);

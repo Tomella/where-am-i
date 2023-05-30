@@ -45,7 +45,9 @@ export default {
    },
    plotter: {}, // Hmm, may want something somedays
    countsUrl: "/countsByDay",
-   elevationUrl: "/elevationAtPoint?lat=$lat&lng=$lng",
+   elevation: {
+      url: "/elevationAtPoint?lat=$lat&lng=$lng"
+   },
    dateUrl: "/pointsByDate/$year/$month/$date",
    jobs: {
       listUrl: "jobs",

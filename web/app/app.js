@@ -1,3 +1,4 @@
+import Elevation from "../lib/elevation.js";
 import Map from "./map.js";
 import Menu from "../app/menu.js";
 import config from "./config.js";
@@ -10,6 +11,11 @@ mapManager.create();
 
 let waiMenu = document.querySelector("wai-menu");
 let menu = new Menu(waiMenu, config.menu);
+
+let elevation = new Elevation(map, config.elevation);
+mapManager.on("measure-toggle", evt => {
+    elevation.enable = !evt.detail.enabled;
+});
 
 let position = new Position();
 map.addControl(position);

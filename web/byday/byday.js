@@ -1,14 +1,14 @@
 import config from "./config.js";
-
+import DateHelper from "../lib/datehelper.js";
 import Display from "./display.js";
+import Elevation from "../lib/elevation.js";
 import Jobs from "../lib/jobs.js";
 import Map from "../app/map.js";
 import Menu from "../app/menu.js";
 import Plotter from "./plotter.js";
+import Position from "../lib/position.js";
 import Transformer from "./transformer.js";
 
-import DateHelper from "../lib/datehelper.js";
-import Position from "../lib/position.js";
 
 let mapManager = new Map(config.map);
 mapManager.create();
@@ -144,28 +144,9 @@ waiDaySummary.addEventListener("last", showLast);
 
 
 // We want to listen for a click on the map (but not while the measuring tool is active)
-let allowElevation = true;
+let elevation = new Elevation(map, config.elevation);
 mapManager.on("measure-toggle", evt => {
-    allowElevation = !evt.detail.enabled;
-});
-map.on("click", async ev => {
-    if(!allowElevation) return;
-    // console.log(ev.latlng);
-    let url = config.elevationUrl.replace("$lat", ev.latlng.lat).replace("$lng", ev.latlng.lng);
-
-    L.popup()
-        .setLatLng(ev.latlng)
-        .setContent("Fetching elevation...")
-        .openOn(map);
-
-    let response = await fetch(url);
-    let elevation = await response.text();
-    console.log("EL: " + elevation);
-
-    L.popup()
-        .setLatLng(ev.latlng)
-        .setContent("<span title='Elevation above sea level.'>Elevation: " + elevation + 'm</span>')
-        .openOn(map);
+    elevation.enable = !evt.detail.enabled;
 });
 
 let position = new Position();

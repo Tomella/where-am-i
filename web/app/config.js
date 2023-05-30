@@ -47,6 +47,9 @@ export default {
          "#acfce6"
       ]
    },
+   elevation: {
+      url: "/elevationAtPoint?lat=$lat&lng=$lng"
+   },
    elevationAtPoint: {
       url: "/elevationAtPoint?lat=$lat&lng=&lng"
    },
