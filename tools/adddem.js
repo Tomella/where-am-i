@@ -63,7 +63,7 @@ async function run() {
         }
     }
     
-    let delta = timer.tick();
+    timer.tick();
     console.log("Job summary: " + results.length + " records processed on this run " + (timer.age / 1000) + "s");
 }
 
