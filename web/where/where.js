@@ -7,6 +7,7 @@ import Position from "../lib/position.js";
 
 let mapManager = new Map(config.map);
 mapManager.create();
+let map = mapManager.map;
 
 let position = new Position();
 map.addControl(position);
@@ -28,3 +29,6 @@ document.addEventListener("position", (ev) => {
 });
 
 let elevation = new Elevation(map, config.elevation);
+mapManager.on("measure-toggle", evt => {
+    elevation.enable = !evt.detail.enabled;
+});
