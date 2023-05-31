@@ -58,7 +58,7 @@ async function run() {
 
             console.log((delta / 1000) + "s for last 5 of " + (i + 1) + " records processed on this run " + (timer.age / 1000) + "s");
             
-            console.log("sleeping " + Math.round(t/1000) + "s at " + (new Date()).toLocaleTimeString());
+            console.log("sleeping " + (t/1000) + "s at " + (new Date()).toLocaleTimeString());
             await sleep(t);
         }
     }
