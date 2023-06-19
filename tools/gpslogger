@@ -18,4 +18,12 @@ cd where-am-i
 # options
 LOGFILE=/home/gpslogger/log/gpslogger.log
 LOCKFILE=/var/lock/subsys/gpslogger
+FOREVER=/usr/bin/forever
+
+if [ ! -f $FOREVER ]; then
+  FOREVER=/usr/local/bin/forever
+fi
+
+
+
 /usr/bin/forever start -a -l $LOGFILE --spinSleepTime 60000 --uid gpslogger server.js
