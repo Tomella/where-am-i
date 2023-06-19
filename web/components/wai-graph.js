@@ -1,3 +1,6 @@
+
+import SummaryTransform from "../lib/summarytransform.js";
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -82,6 +85,7 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
     }
 
     constructor() {
+        this.transformer = SummaryTransform;
         // Do something with the arguments
         super();
         // Normally you are adding the template

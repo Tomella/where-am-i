@@ -7,6 +7,7 @@ import Map from "../app/map.js";
 import Menu from "../app/menu.js";
 import Plotter from "./plotter.js";
 import Position from "../lib/position.js";
+import SummaryTransform from "../lib/summarytransform.js";
 import Transformer from "./transformer.js";
 
 
@@ -28,6 +29,8 @@ let heightGraph = null;
 
 
 let data = await display.fetch();
+console.log(SummaryTransform.daysToMonths(data))
+console.log(SummaryTransform.daysToSeasons(data))
 let maxDate = "0000-00-00";
 let minDate = "2222-00-00";
 
@@ -51,6 +54,8 @@ let changeDateHandler = async (date) => {
     let response = await fetch(config.dateUrl.replace("$year", date.getFullYear()).replace("$month", date.getMonth() + 1).replace("$date", date.getDate()));
     
     let json = await response.json();
+
+
     plotter.show(json);
 
     if (heightGraph) {

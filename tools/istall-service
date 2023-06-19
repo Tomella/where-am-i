@@ -1,6 +1,9 @@
 #!/bin/bash
 #
 # Don't really expect this to be run but it gives good hints on what to do to create a service.
+# It expects that you have:
+#  * nodejs installed (ver > 14 ) however your operating system suggests it be installed.
+#  * forever installed  > npm install forever -g
 #
 sudo cp /home/gpslogger/where-am-i/tools/gpslogger.service /etc/systemd/system/
 sudo cp /home/gpslogger/where-am-i/tools/gpslogger /sbin
