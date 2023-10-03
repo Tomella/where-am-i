@@ -26,6 +26,11 @@ let waiMenu = document.querySelector("wai-menu");
 let menu = new Menu(waiMenu, config.menu);
 
 let heightGraph = null;
+let heightGraphExpanded = true;
+
+config.heightGraph.expandCallback = (expanded) => {
+    heightGraphExpanded = expanded;
+}
 
 
 let data = await display.fetch();
@@ -65,7 +70,10 @@ let changeDateHandler = async (date) => {
     waiDaySummary.data = null;
 
     if (json && json.features && json.features.length) {
-        heightGraph = L.control.heightgraph(config.heightGraph);
+        let heightGraphConfig = config.heightGraph;
+        heightGraphConfig.expand = heightGraphExpanded;
+
+        heightGraph = L.control.heightgraph(heightGraphConfig);
         heightGraph.addTo(map);
         heightGraph.addData(Transformer.pointsToLinestring(json));
         waiDaySummary.data = {

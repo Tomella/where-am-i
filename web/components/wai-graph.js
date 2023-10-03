@@ -85,9 +85,9 @@ customElements.define('wai-graph', class GraphElement extends HTMLElement {
     }
 
     constructor() {
-        this.transformer = SummaryTransform;
         // Do something with the arguments
         super();
+        this.transformer = SummaryTransform;
         // Normally you are adding the template
         const root = this.attachShadow({ mode: 'open' })
         root.appendChild(template.content.cloneNode(true));

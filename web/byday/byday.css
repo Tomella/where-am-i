@@ -1,3 +1,7 @@
 .leaflet-bottom .leaflet-control-scale {
     margin-bottom: 0px;
 }
+
+/* If we are on my phone, hide the graphs. They take over the space and aren't overly useful */
+@media only screen and (min-device-width: 412px) and (orientation: portrait) { /* Your Styles... */ }
+@media only screen and (min-device-width: 915px) and (orientation: landscape) { /* Your Styles... */ }

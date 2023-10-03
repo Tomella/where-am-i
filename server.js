@@ -71,7 +71,6 @@ async function run() {
    });
 
    app.all('/countsByDay', async (req, res) => {
-      let id = req.params.id;
       let data = await journal.countsByDay();
       res.status(200).send(data);
    });
