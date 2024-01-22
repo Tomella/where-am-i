@@ -9,6 +9,7 @@ import Plotter from "./plotter.js";
 import Position from "../lib/position.js";
 import SummaryTransform from "../lib/summarytransform.js";
 import Transformer from "./transformer.js";
+import decorateSpeed from "../lib/speed.js";
 
 
 let mapManager = new Map(config.map);
@@ -60,6 +61,7 @@ let changeDateHandler = async (date) => {
     
     let json = await response.json();
 
+    decorateSpeed(json.features);
 
     plotter.show(json);
 

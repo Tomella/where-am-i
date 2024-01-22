@@ -37,7 +37,21 @@ export default class Plotter {
                 pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
                     ...this.config,
                     fillOpacity: feature.properties.opacity,
-                    opacity: feature.properties.opacity
+                    opacity: feature.properties.opacity,
+                    get fillColor () {
+                        console.log(feature);
+                        let speed = feature.properties.speed;
+                        let keys = Object.keys(this.colorMap);
+                        let lastKey = 0;
+                        let index = keys.find(key => {
+                            if(speed <= 0 + key) {
+                                return true;
+                            }
+                            lastKey = key;
+                            return false;
+                        } );
+                        return this.colorMap[lastKey]; 
+                    }
                 })
             }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
             this.layer.addTo(this.map);

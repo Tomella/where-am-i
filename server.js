@@ -1,6 +1,8 @@
 import express from "express";
 import config from "./lib/config.js";
 import mysql from "mysql2/promise";
+import mqtt from "mqtt";
+
 import Elevation from "./lib/elevation.js";
 import Job from "./lib/job.js";
 import Journal from "./lib/journal.js";

@@ -43,7 +43,33 @@ export default {
          legend: "Elevation for points on:"
       }
    },
-   plotter: {}, // Hmm, may want something somedays
+   plotter: {
+      colorMap: {
+         2: "#44EEEF",
+         2.5: "#4CE2EF",
+         3: "#55D6EF",
+         3.5: "#5DCAEF",
+         4: "#66BEEF",
+         4.5: "#6EB2EF",
+         5: "#77A6EF",
+         5.5: "#7F9AEF",
+         6: "#888EEF",
+         6.5: "#7F9AEF",
+         7: "#888EEF",
+         8: "#9082EF",
+         10: "#9977EF",
+         12: "#A16BEF",
+         15: "#AA5FEF",
+         19: "#B253EF",
+         23: "#BB47EF",
+         30: "#C33BEF",
+         40: "#CC2FEF",
+         60: "#D423EF",
+         80: "#DD17EF",
+         100: "#E50BEF",
+         120: "#EE00EF"
+      }
+   }, 
    countsUrl: "/countsByDay",
    elevation: {
       url: "/elevationAtPoint?lat=$lat&lng=$lng"
