@@ -16,7 +16,7 @@ const port = 3000;
 run().then(() => console.log("Running"));
 
 async function run() {
-   const pool = await mysql.createPool(config.connection);
+   let pool = await mysql.createPool(config.connection);
 
    //const modRouter = new ModRouter();
 
@@ -180,6 +180,9 @@ async function run() {
       return await job.create(name);
    }
 }
+
+
+
 
 function pad(num) {
    return num > 9 ? num : "0" + num;

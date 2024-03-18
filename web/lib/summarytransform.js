@@ -2,7 +2,6 @@ export default class SummaryTransform {
 
     static daysToMonths(data ={}) {
         window.df = data;
-        console.log(data)
         return Object.entries(data).reduce((months, [key, value]) => {
             let monthKey = key.substring(0, 7);
             let month = months[monthKey]

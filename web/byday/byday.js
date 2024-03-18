@@ -9,11 +9,14 @@ import Plotter from "./plotter.js";
 import Position from "../lib/position.js";
 import SummaryTransform from "../lib/summarytransform.js";
 import Transformer from "./transformer.js";
-import decorateSpeed from "../lib/speed.js";
+import Decorator from "./decorator.js";
 
 
 let mapManager = new Map(config.map);
 mapManager.create();
+
+let decorator = new Decorator(config.decorator);
+
 let map = mapManager.map;
 let jobs = new Jobs(config.jobs);
 let jobsList = await jobs.list();
@@ -59,11 +62,13 @@ let changeDateHandler = async (date) => {
 
     let response = await fetch(config.dateUrl.replace("$year", date.getFullYear()).replace("$month", date.getMonth() + 1).replace("$date", date.getDate()));
     
-    let json = await response.json();
+    let data = await response.json();
 
-    decorateSpeed(json.features);
+    decorator.decorate(data.features);
 
-    plotter.show(json);
+    data.features.forEach(feature => console.log(feature.properties.travelledDistance, feature.properties.remainingDistance))
+
+    plotter.show(data);
 
     if (heightGraph) {
         heightGraph.remove();
@@ -71,13 +76,13 @@ let changeDateHandler = async (date) => {
 
     waiDaySummary.data = null;
 
-    if (json && json.features && json.features.length) {
+    if (data && data.features && data.features.length) {
         let heightGraphConfig = config.heightGraph;
         heightGraphConfig.expand = heightGraphExpanded;
 
         heightGraph = L.control.heightgraph(heightGraphConfig);
         heightGraph.addTo(map);
-        heightGraph.addData(Transformer.pointsToLinestring(json));
+        heightGraph.addData(Transformer.pointsToLinestring(data));
         waiDaySummary.data = {
             date
         };

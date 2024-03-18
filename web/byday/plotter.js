@@ -28,9 +28,8 @@ export default class Plotter {
             let latest = response.features[0];
             this.last = latest.properties.name;
 
-            response.features = response.features.map((feature, index) => {
-                feature.properties.opacity = 0.2 + (index + 1) / count * 0.7;
-                return feature;
+            response.features.forEach((feature, index) => {
+                feature.properties.opacity = 0.4 + (index + 1) / count * 0.5;
             });
 
             this.layer = L.geoJSON(response, {
@@ -38,20 +37,7 @@ export default class Plotter {
                     ...this.config,
                     fillOpacity: feature.properties.opacity,
                     opacity: feature.properties.opacity,
-                    get fillColor () {
-                        console.log(feature);
-                        let speed = feature.properties.speed;
-                        let keys = Object.keys(this.colorMap);
-                        let lastKey = 0;
-                        let index = keys.find(key => {
-                            if(speed <= 0 + key) {
-                                return true;
-                            }
-                            lastKey = key;
-                            return false;
-                        } );
-                        return this.colorMap[lastKey]; 
-                    }
+                    fillColor: this.config.colorMap[feature.properties.speedGroup]
                 })
             }).bindTooltip(layer => layer.feature.properties.name, { permanent: false });
             this.layer.addTo(this.map);
