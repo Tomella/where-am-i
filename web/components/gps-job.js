@@ -53,7 +53,7 @@ button {
 </style>
 <div>
    <span class="jobhead" aria-role="button"><span class="expander">+</span>&nbsp;<span name="name"></span></span>
-   <a href="javascript: return false" title="View where the last few point for this job. Hover over points for datestamp.">[track]</a>
+   <a href="javascript: return false" title="View where the last few point for this job. Hover over points for datestamp.">[show]</a>
 </div>
 <div hidden="hidden" class="extra_detail">
    <span class="sml_title">Dates:</span> <span class="start_date"></span> to <span class="last_date"></span><br/>
@@ -104,8 +104,8 @@ customElements.define('gps-job', class GpsJob extends HTMLElement {
             return;
          }
 
-         let selected = a.innerText !== "[track]";
-         a.innerHTML = selected ? "[track]" : "[stop tracking]";
+         let selected = a.innerText !== "[show]";
+         a.innerHTML = selected ? "[show]" : "[hide]";
 
          this.dispatchEvent(new CustomEvent("jobtrack", {
             composed: true,

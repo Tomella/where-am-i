@@ -10,7 +10,7 @@ export default {
        measure: {
          position: 'topleft',
          measureControlTitleOn: 'Draw and measure lines.',  
-         measureControlTitleOff: 'Turn off measure.'  
+         measureControlTitleOff: 'Turn off measure'    
        },
        layers: [
           {

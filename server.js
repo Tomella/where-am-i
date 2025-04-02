@@ -156,6 +156,12 @@ async function run() {
       res.status(200).send(data);
    });
 
+   app.get('/since/:year/:month/:date/:hours/:minutes/:seconds', async (req, res) => {
+      let date = new Date(+req.params["year"], (+req.params["month"]) - 1, +req.params["date"],  +req.params["hours"], +req.params["minutes"],  +req.params["seconds"]);
+      let data = await point.since(date);
+      res.status(200).send(data);
+   });
+
    app.get('/elevationPoints',  async (req, res) => {
       let points = await elevation.getAll();
       res.status(200).send(points);
