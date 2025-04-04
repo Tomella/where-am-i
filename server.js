@@ -1,7 +1,7 @@
 import express from "express";
 import config from "./lib/config.js";
 import mysql from "mysql2/promise";
-import mqtt from "mqtt";
+import { spawn } from "child_process";
 
 import Elevation from "./lib/elevation.js";
 import Job from "./lib/job.js";
