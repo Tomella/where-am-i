@@ -17,15 +17,22 @@ setInterval(() => {
 
 */
 
+const MS_TO_KMH = 3.6
 const x = document.getElementById("demo");
 const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 5});
+const geoOptions = {
+    enableHighAccuracy: true,
+    maximumAge: 100,
+    timeout: 45000
+};
+
 let count = 0;
+
 getLocation();
 
-function getLocation() {
+function getLocation() {    
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(showPosition, showError);
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
+        navigator.geolocation.watchPosition(showPosition, showError, geoOptions);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -33,47 +40,63 @@ function getLocation() {
 
 function showPosition(position) {
     /*
-    accuracy:1046.540898117061
-    altitude:null
-    altitudeAccuracy:null
-    heading: null
-    latitude: -34.4588288
-    longitude: 138.8085248
-    speed: null
+    timestamp: 1743631242285,
+    coords: {
+        accuracy: 1046.540898117061,
+        latitude: -34.4588288,
+        longitude: 138.8085248,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        speed: null
+    }
     */
 
     let dumpster = document.getElementById("dumpster");
-    dumpster.value = JSON.stringify(position, null, 3);
+    if(dumpster) {
+        dumpster.value = JSON.stringify(position, null, 3);
+    }
 
     let coords = position.coords;
+
     let buffer = [];
     createString("Latitude"); 
     createString("Longitude");
     createString("Altitude");
     createString("Heading");
-    createString("Speed");
+    createString("Speed", MS_TO_KMH);
     buffer.push("Update No: " + ++count);
     
     x.innerHTML = buffer.join("<br/>");
 
     showSpeed(coords.speed, coords.heading);
+    updatePosition(coords.latitude, coords.longitude);
 
-
-    function createString(literal) {
+    function createString(literal, multiplier = 1) {
         let key = literal.toLowerCase()
         if(coords[key] !== null) {
-            buffer.push(literal + ": " + formatter.format(coords[key]));
+            buffer.push(literal + ": " + formatter.format(coords[key] * multiplier));
         }
     }
 }
 
+function updatePosition(lat, lng) {
+    // Update the pointer to the destination.
+    let endpoint = document.getElementById("endpoint");
+    endpoint.setAttribute("startlng", lng);
+    endpoint.setAttribute("startlat", lat);
+
+    // We will do the map update here
+}
+
+
 function showSpeed(speed, heading) {
     let compass = document.getElementById("speedCompass");
     let speedo = document.getElementById("speedValue");
-    if(speed && speed >= 1) {
+    if(speed && speed >= 0.26) {
         speedo.classList.remove("hide");
         compass.classList.remove("hide");
-        speedo.setAttribute("number", speed);
+        speedo.setAttribute("number", speed * MS_TO_KMH);
         compass.setAttribute("direction", heading);
     } else {
         speedo.classList.add("hide");

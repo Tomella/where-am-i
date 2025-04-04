@@ -5,19 +5,20 @@
    <title>Where Am I Test</title>
    <link rel="icon" type="image/png" href="icon.png">
    <link rel="stylesheet" href="app/app.css" />
+   
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/leaflet.js"></script>
+   <script src="lib/leaflethelper.js"></script>
    <script type="module" src="components/wai-compass.js"></script>
    <script type="module" src="components/wai-number.js"></script>
+   <script type="module" src="components/wai-endpoint.js"></script>
 </head>
 
 <body>
    <div style="position:fixed; right:0;top:0; width:150px;">
-      <div style="position:absolute; right:60px; top:8px; width:48px; height:48px">
-         <wai-compass id="distCompass" direction="0"></wai-compass>
+      <div style="position: absolute; right: 16px; top: 10px; width: 140px; height: 60px;">
+         <wai-endpoint id="endpoint" endlat="-34.4558551" endlng="138.8113785"></wai-endpoint>
       </div>
-      <div style="position:absolute; right:16px; top:70px; width: 100%; ">
-         <wai-number number="25.5777" units="km" label="Distance:"></wai-number>
-      </div>
-      <div style="position:absolute; right:60px; top:100px; width:48px; height:48px">
+      <div style="position:absolute; right:50px; top:100px; width:60px; height:60px">
          <wai-compass class="hide" id="speedCompass" direction="0"></wai-compass>
       </div>
       <div style="position:absolute; right:16px; top:160px; width:100%;">
