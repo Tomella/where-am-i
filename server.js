@@ -182,6 +182,15 @@ async function run() {
       console.log("running server on port " + port);
    });
 
+   app.get('/pull',  async (req, res) => {
+      const subprocess = spawn("git", ['pull'], {
+         detached: true,
+         stdio: 'ignore'
+     });
+     subprocess.unref();
+     res.status(200).send({scheduled: true});
+   });
+
    async function createJob(name) {
       return await job.create(name);
    }
