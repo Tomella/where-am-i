@@ -182,13 +182,21 @@ async function run() {
       console.log("running server on port " + port);
    });
 
+
+   const WAIT_PERIOD = 30000; // Arbitrary wait until next pull allowed.
+   let lastPull = 0;
    app.get('/pull',  async (req, res) => {
-      const subprocess = spawn("git", ['pull'], {
-         detached: true,
-         stdio: 'ignore'
-     });
-     subprocess.unref();
-     res.status(200).send({scheduled: true});
+      let now = Date.now();
+      let ok = now - lastPull > WAIT_PERIOD;
+      if(ok) {
+         lastPull = now;
+         const subprocess = spawn("git", ['pull'], {
+            detached: true,
+            stdio: 'ignore'
+         });
+         subprocess.unref();
+      } 
+      res.status(200).send({timestamp: now, scheduled: ok});
    });
 
    async function createJob(name) {
