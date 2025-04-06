@@ -5,30 +5,42 @@
    <title>Where Am I Test</title>
    <link rel="icon" type="image/png" href="icon.png">
    <link rel="stylesheet" href="app/app.css" />
+   <link rel="stylesheet" href="test/test.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/leaflet.css" crossorigin=""/>
    
    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/leaflet.js"></script>
    <script src="lib/leaflethelper.js"></script>
    <script type="module" src="components/wai-compass.js"></script>
    <script type="module" src="components/wai-number.js"></script>
    <script type="module" src="components/wai-endpoint.js"></script>
+   <script type="module" src="components/wai-recenter.js"></script>
+   <script type="module" src="components/wai-select.js"></script>
 </head>
 
 <body>
+   <div id="mapId"></div>
    <div style="position:fixed; right:0;top:0; width:150px;">
-      <div style="position: absolute; right: 16px; top: 10px; width: 140px; height: 60px;">
+      <div id="endpointContainer" style="position: absolute; right: 16px; top: 10px; width: 140px; height: 60px;" class="hide">
          <wai-endpoint id="endpoint" endlat="-34.4558551" endlng="138.8113785"></wai-endpoint>
       </div>
-      <div style="position:absolute; right:50px; top:130px; width:60px; height:60px">
+      <div style="position: absolute; right: 55px; top: 10px;">
+         <wai-select></wai-select>
+      </div>
+      <div style="position:absolute; right:60px; top:120px; width:60px; height:60px">
          <wai-compass class="hide" id="speedCompass" direction="0"></wai-compass>
       </div>
-      <div style="position:absolute; right:18px; top:200px; width:100%;">
+      <div style="position:absolute; right:18px; top:185px; width:100%;">
          <wai-number class="hide" id="speedValue" number="1" units="km/h" label=""></wai-number>
+      </div>
+      <div style="position:absolute; right:55px; top:220px;">
+         <wai-recenter title="Recenter and track position" class="hide"></wai-recenter>
       </div>
    </div>
 
-   <div id="demo" style="position:fixed; left:10px;top:10px;font-size:200%; font-weight: bold;"></div>
-   <textarea id="dumpster" rows="30" columns="100" style="position:fixed; bottom:10px;left:10px;width: 100em;height:40em"></textarea>
-
+   <div id="details" style="position:fixed; right:20px; bottom:20px; font-weight: bold;">
+      <div id="demo"></div>
+      
+   </div>
 </body>
 
 <script type="module" src="test/test.js"></script>

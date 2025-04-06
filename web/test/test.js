@@ -5,7 +5,6 @@ periods.addEventListener("periodchange", (ev) => {
     console.log("Event for periods", ev)
 });
 
-
 let distCompass = document.querySelector("#distCompass");
 
 let dist = 0;
@@ -14,17 +13,23 @@ setInterval(() => {
     distCompass.setAttribute("direction", dist);
     dist += 0.4;
 }, 10)
-
 */
+
+import Map from "../app/map.js";
+import config from "./config.js";
 
 const MS_TO_KMH = 3.6
 const x = document.getElementById("demo");
-const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 5});
+const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 4});
 const geoOptions = {
     enableHighAccuracy: true,
     maximumAge: 100,
     timeout: 45000
 };
+
+let mapManager = new Map(config.map);
+mapManager.create();
+let map = mapManager.map;
 
 let count = 0;
 
@@ -55,31 +60,71 @@ function showPosition(position) {
     let dumpster = document.getElementById("dumpster");
     if(dumpster) {
         dumpster.value = JSON.stringify(position, null, 3);
+    } else {
+        console.log(position);
     }
 
     let coords = position.coords;
-
     let buffer = [];
-    createString("Latitude"); 
-    createString("Longitude");
-    createString("Altitude");
-    createString("Heading");
-    createString("Speed", MS_TO_KMH);
-    buffer.push("Update No: " + ++count);
+    createString("Latitude", 1, "°"); 
+    createString("Longitude", 1, "°");
+    createString("Altitude", 1, "m");
     
     x.innerHTML = buffer.join("<br/>");
 
     showSpeed(coords.speed, coords.heading);
     updatePosition(coords.latitude, coords.longitude);
 
-    function createString(literal, multiplier = 1) {
+    function createString(literal, multiplier = 1, tail = '') {
         let key = literal.toLowerCase()
         if(coords[key] !== null) {
-            buffer.push(literal + ": " + formatter.format(coords[key] * multiplier));
+            buffer.push("<span class='label'>" + literal + ":</span>" + formatter.format(coords[key] * multiplier) + tail);
         }
     }
 }
 
+// Select a destination
+let waiSelect = document.querySelector("wai-select");
+let waiEndpoint = document.querySelector("wai-endpoint");
+let waiEndpointContainer = document.getElementById("endpointContainer")
+let selectInProcess = false;
+let marker = null;
+waiSelect.addEventListener("click", async (ev) => {
+    waiSelect.classList.add("hide");
+    selectInProcess = true;
+
+});
+map.on("click", ev => {
+    console.log("Map clicked")
+    if(selectInProcess) {
+        selectInProcess = false;
+        let icon = L.divIcon({
+            className: 'custom-div-icon',
+            html: config.destinationIcon,
+            iconSize: [30, 42],
+            iconAnchor: [15, 42]
+        });
+
+        marker = L.marker(ev.latlng, { icon: icon }).addTo(map);
+        marker.on("click", ev => {
+            console.log("Please delete me and show th pointer again.");
+            waiSelect.classList.remove("hide");
+            waiEndpointContainer.classList.add("hide");
+            map.removeLayer(marker);
+            marker = null;
+        });
+
+        waiEndpoint.setAttribute("endlat", ev.latlng.lat);
+        waiEndpoint.setAttribute("endlng", ev.latlng.lng);
+        waiEndpointContainer.classList.remove("hide");
+    }
+});
+
+// Recentering code 
+let waiRecenter = document.querySelector("wai-recenter");
+waiRecenter.classList.add("hide");
+let panned = false;
+let lastLatLng = null;
 function updatePosition(lat, lng) {
     // Update the pointer to the destination.
     let endpoint = document.getElementById("endpoint");
@@ -87,7 +132,24 @@ function updatePosition(lat, lng) {
     endpoint.setAttribute("startlat", lat);
 
     // We will do the map update here
+    console.log("Panned " + panned);
+    lastLatLng = [lat, lng];
+    if(!panned) {
+        map.panTo(lastLatLng);
+    }
 }
+
+waiRecenter.addEventListener("recenter", async (e) => {
+    let panned = false;
+    map.panTo(lastLatLng);
+    waiRecenter.classList.add("hide");
+});
+
+map.on("dragend", () => {
+    waiRecenter.classList.remove("hide");
+    console.log("drag end...");
+    panned = true;
+});
 
 
 function showSpeed(speed, heading) {
