@@ -17,6 +17,7 @@ setInterval(() => {
 
 import Map from "../app/map.js";
 import config from "./config.js";
+import BreadCrumb from "../lib/breadcrumb.js";
 
 const MS_TO_KMH = 3.6
 const x = document.getElementById("demo");
@@ -43,6 +44,10 @@ function getLocation() {
     }
 }
 
+let breadcrumb = new BreadCrumb(map, config.breadcrumb);
+window.breadcrumb = breadcrumb;
+
+
 function showPosition(position) {
     /*
     timestamp: 1743631242285,
@@ -56,7 +61,7 @@ function showPosition(position) {
         speed: null
     }
     */
-
+    breadcrumb.add(position);
     let dumpster = document.getElementById("dumpster");
     if(dumpster) {
         dumpster.value = JSON.stringify(position, null, 3);
@@ -92,7 +97,6 @@ let marker = null;
 waiSelect.addEventListener("click", async (ev) => {
     waiSelect.classList.add("hide");
     selectInProcess = true;
-
 });
 map.on("click", ev => {
     console.log("Map clicked")
