@@ -35,10 +35,13 @@ export default class BreadCrumb {
                 console.log("Accuracy too low by ", coords.accuracy - this.config.accuracy);
                 return;
             }
-            
-            this.trail.push(geolocation);
-            this.polyline.addLatLng(latLng);
-            updateStorage(this);
+            // We dont want all points there is a threshold in the config for how often we update the breadcrumb.
+            let lastLocation = this.trail[this.trail.length - 1];
+            if(this.config.minimumPeriod && geolocation.timestamp - lastLocation.timestamp >= this.config.minimumPeriod) {
+                this.trail.push(geolocation);
+                this.polyline.addLatLng(latLng);
+                updateStorage(this);
+            }
         } else {
             // Do we have web storage?
             if(this.config.storage) {

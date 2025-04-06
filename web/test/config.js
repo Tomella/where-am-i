@@ -6,14 +6,14 @@ export default {
           center: [-34.554, 139.01],
           minZoom: 7,
           zoom: 15,
-          maxZoom: 20
+          maxZoom: 19
        },
        layers: [
           {
              type: "tileLayer",
              url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
              options: {
-                maxZoom: 20,
+                maxZoom: 19,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 subdomains: ['a', 'b', 'c']
              }
@@ -32,7 +32,7 @@ export default {
         minimumPeriod: 10000, // 10 seconds
         minimumTravel: 10,  // metres.
         storage: true,  // Use localstorage for breadcrumb to preserve across refreshes.
-        lineStyle: {
+        lineStyle: {    // The breadcrumb line on map's styling info.
             color: 'red', 
             weight: 5, 
             opacity: 0.5
