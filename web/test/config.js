@@ -31,6 +31,11 @@ export default {
         accuracy: 1200,  // metres
         minimumPeriod: 10000, // 10 seconds
         minimumTravel: 10,  // metres.
-        storage: true  // Use localstorage for breadcrumb to preserve across refreshes.
+        storage: true,  // Use localstorage for breadcrumb to preserve across refreshes.
+        lineStyle: {
+            color: 'red', 
+            weight: 5, 
+            opacity: 0.5
+        }
     }
 };

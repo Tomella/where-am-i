@@ -35,30 +35,48 @@ export default class BreadCrumb {
                 console.log("Accuracy too low by ", coords.accuracy - this.config.accuracy);
                 return;
             }
+            
+            this.trail.push(geolocation);
             this.polyline.addLatLng(latLng);
+            updateStorage(this);
         } else {
             // Do we have web storage?
             if(this.config.storage) {
                 let now = new Date();
                 let monthDay = now.getMonth() * 12 + now.getDate();
                 let tempTrail = localStorage.getItem("breadcrumbData");
-                tempTrail = tempTrail ? JSON.parse(tempTrail) : tempTrail;
-                console.log("We have local storage", tempTrail);
+                try {
+                    tempTrail = tempTrail ? JSON.parse(tempTrail) : tempTrail;
+                    console.log("We have local storage", tempTrail);
+                } catch(e) {
+                    console.log("Oh dear. The data was corrupt", tempTrail);
+                    localStorage.removeItem("breadcrumbData");
+                    tempTrail = null;
+                }
                 if(tempTrail) {
-                    this.trail = tempTrail.filter(location => {
-                        let pointTime = new Date(location.timestamp);
-                        let locationmonthDay = pointTime.getMonth() * 12 + pointTime.getDate();
-                        return locationmonthDay == monthDay;
-                    });
+                    try {
+                        this.trail = tempTrail.filter(location => {
+                            let pointTime = new Date(location.timestamp);
+                            let locationmonthDay = pointTime.getMonth() * 12 + pointTime.getDate();
+                            return locationmonthDay == monthDay;
+                        });
+                    } catch(e) {
+                        console.log("We've had difficulty filtering the locations", e);
+                        localStorage.removeItem("breadcrumbData");
+                        this.trail = [];
+                    }
                 }
                 console.log("We have local storage 2", tempTrail);
             }
-
             this.trail.push(geolocation);
-            this.polyline = L.polyline(this.all(), {color: 'red', width: 10, opacity: 0.8}).addTo(map);
+            this.polyline = L.polyline(this.all(), this.config.lineStyle).addTo(map);
+            updateStorage(this);
         }
-        if(this.config.storage) {
-            localStorage.setItem("breadcrumbData", JSON.stringify(this.trail));
+
+        function updateStorage(context) {
+            if(context.config.storage) {
+                localStorage.setItem("breadcrumbData", JSON.stringify(context.trail));
+            }
         }
     }
 
