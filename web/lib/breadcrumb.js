@@ -29,18 +29,25 @@ export default class BreadCrumb {
         let coords = geolocation.coords;
         let lat = coords.latitude;
         let lng = coords.longitude;
+
+        // Bail out early if the accuracy isn't good. Bigger is worse accuracy.
+        if(coords.accuracy > this.config.accuracy) {
+            console.log("Accuracy too low by ", coords.accuracy - this.config.accuracy);
+            return;
+        }
+
         let latLng = L.latLng(lat, lng);
         if(this.trail.length) {
-            if(coords.accuracy > this.config.accuracy) {
-                console.log("Accuracy too low by ", coords.accuracy - this.config.accuracy);
-                return;
-            }
             // We dont want all points there is a threshold in the config for how often we update the breadcrumb.
             let lastLocation = this.trail[this.trail.length - 1];
             if(this.config.minimumPeriod && geolocation.timestamp - lastLocation.timestamp >= this.config.minimumPeriod) {
-                this.trail.push(geolocation);
-                this.polyline.addLatLng(latLng);
-                updateStorage(this);
+                // We don't really want to record an update unless we have travelled a minimum distance.
+                let lastLatLng = L.latLng(lastLocation.latitude, lastLocation.longitude);
+                if(this.config.minimumTravel < lastLatLng.distanceTo(latLng)) {
+                    this.trail.push(geolocation);
+                    this.polyline.addLatLng(latLng);
+                    updateStorage(this);
+                }
             }
         } else {
             // Do we have web storage?
@@ -86,8 +93,4 @@ export default class BreadCrumb {
     all() {
         return this.trail.map(location => [location.coords.latitude, location.coords.longitude]); 
     }
-}
-
-function getDistance(from, to) {
-    container.innerHTML = ("New Delhi to Mumbai - " + (from.distanceTo(to)).toFixed(0)/1000) + ' km';
 }
