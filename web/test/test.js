@@ -18,6 +18,7 @@ setInterval(() => {
 import Map from "../app/map.js";
 import config from "./config.js";
 import BreadCrumb from "../lib/breadcrumb.js";
+import Destination from "../lib/destination.js";
 
 const MS_TO_KMH = 3.6
 const x = document.getElementById("demo");
@@ -98,8 +99,23 @@ waiSelect.addEventListener("click", async (ev) => {
     waiSelect.classList.add("hide");
     selectInProcess = true;
 });
+
+
+let destination = new Destination();
+let destinationLatLng = destination.get();
+if(destinationLatLng) {
+    selectInProcess = true;
+    pointSelected(destinationLatLng);
+    waiSelect.classList.add("hide");
+}
+
 map.on("click", ev => {
-    console.log("Map clicked")
+    let latlng = ev.latlng;
+    pointSelected(latlng);
+    destination.set(latlng);
+});
+
+function pointSelected(latlng) {
     if(selectInProcess) {
         selectInProcess = false;
         let icon = L.divIcon({
@@ -109,20 +125,22 @@ map.on("click", ev => {
             iconAnchor: [15, 42]
         });
 
-        marker = L.marker(ev.latlng, { icon: icon }).addTo(map);
+        marker = L.marker(latlng, { icon: icon }).addTo(map);
         marker.on("click", ev => {
-            console.log("Please delete me and show th pointer again.");
+            console.log("Please delete me and show the pointer again.");
             waiSelect.classList.remove("hide");
             waiEndpointContainer.classList.add("hide");
             map.removeLayer(marker);
             marker = null;
+            destination.remove();
         });
 
-        waiEndpoint.setAttribute("endlat", ev.latlng.lat);
-        waiEndpoint.setAttribute("endlng", ev.latlng.lng);
+        waiEndpoint.setAttribute("endlat", latlng.lat);
+        waiEndpoint.setAttribute("endlng", latlng.lng);
         waiEndpointContainer.classList.remove("hide");
     }
-});
+}
+
 
 // Recentering code 
 let waiRecenter = document.querySelector("wai-recenter");
