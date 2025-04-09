@@ -1,20 +1,3 @@
-/*
-let periods = document.querySelector("wai-periods");
-
-periods.addEventListener("periodchange", (ev) => {
-    console.log("Event for periods", ev)
-});
-
-let distCompass = document.querySelector("#distCompass");
-
-let dist = 0;
-
-setInterval(() => {
-    distCompass.setAttribute("direction", dist);
-    dist += 0.4;
-}, 10)
-*/
-
 import Map from "../app/map.js";
 import config from "./config.js";
 import BreadCrumb from "../lib/breadcrumb.js";
@@ -31,12 +14,13 @@ const geoOptions = {
 
 
 let params = new URLSearchParams(document.location.search.substring(1));
-let date = params.get("dev");
-if(date) {
+let dev = params.get("dev");
+if(dev) {
     let dumpster = document.getElementById("dumpster");
     dumpster.classList.remove("hide");
+    let c = 0;
     console.log = function(...args) {
-        dumpster.value += "\n" + args.join("\t");
+        dumpster.value += "\n" + c++ + " " + args.join("\t");
     }
 }
 
@@ -75,12 +59,12 @@ function showPosition(position) {
     }
     */
     breadcrumb.add(position);
-    let dumpster = document.getElementById("dumpster");
-    if(dumpster) {
-        dumpster.value = JSON.stringify(position, null, 3);
-    } else {
+    //let dumpster = document.getElementById("dumpster");
+    //if(dumpster) {
+    //    dumpster.value = JSON.stringify(position, null, 3);
+    //} else {
         console.log(position);
-    }
+    //}
 
     let coords = position.coords;
     let buffer = [];
