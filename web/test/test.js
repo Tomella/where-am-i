@@ -21,13 +21,25 @@ import BreadCrumb from "../lib/breadcrumb.js";
 import Destination from "../lib/destination.js";
 
 const MS_TO_KMH = 3.6
-const x = document.getElementById("demo");
+const x = document.getElementById("messages");
 const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 4});
 const geoOptions = {
     enableHighAccuracy: true,
     maximumAge: 100,
     timeout: 45000
 };
+
+
+let params = new URLSearchParams(document.location.search.substring(1));
+let date = params.get("dev");
+if(date) {
+    let dumpster = document.getElementById("dumpster");
+    dumpster.classList.remove("hide");
+    console.log = function(...args) {
+        dumpster.value += "\n" + args.join("\t");
+    }
+}
+
 
 let mapManager = new Map(config.map);
 mapManager.create();
