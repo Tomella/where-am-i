@@ -8,7 +8,7 @@ const x = document.getElementById("messages");
 const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 4});
 const geoOptions = {
     enableHighAccuracy: true,
-    maximumAge: 100,
+    maximumAge: 0,
     timeout: 45000
 };
 
@@ -43,7 +43,7 @@ function getLocation() {
 
 let breadcrumb = new BreadCrumb(map, config.breadcrumb);
 window.breadcrumb = breadcrumb;
-
+let watchCount = 0;
 
 function showPosition(position) {
     /*
@@ -63,7 +63,7 @@ function showPosition(position) {
     //if(dumpster) {
     //    dumpster.value = JSON.stringify(position, null, 3);
     //} else {
-        console.log(position);
+    console.log("Watch count = " + watchCount++ + "\n", position);
     //}
 
     let coords = position.coords;

@@ -26,6 +26,7 @@ export default class BreadCrumb {
     // The time has to be greater than a threshold.
     // The distamce travelled has to greater than some lower limit.
     add(geolocation) {
+        try {
         let coords = geolocation.coords;
         let lat = coords.latitude;
         let lng = coords.longitude;
@@ -84,10 +85,14 @@ export default class BreadCrumb {
         }
 
         function updateStorage(context) {
+            console.log("Updating storage");
             if(context.config.storage) {
                 localStorage.setItem("breadcrumbData", JSON.stringify(context.trail));
             }
         }
+    } catch(e){
+            console.log(e)
+    }
     }
 
     all() {
