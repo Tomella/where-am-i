@@ -1,0 +1,17 @@
+{
+  "name": "Navigator",
+  "start_url": "/test.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

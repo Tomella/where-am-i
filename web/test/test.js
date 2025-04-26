@@ -5,21 +5,17 @@ import Destination from "../lib/destination.js";
 
 const MS_TO_KMH = 3.6
 const x = document.getElementById("messages");
-const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 4});
-const geoOptions = {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: 45000
-};
+const formatter = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 4 });
+const geoOptions = config.geolocationOptions;
 
 
 let params = new URLSearchParams(document.location.search.substring(1));
 let dev = params.get("dev");
-if(dev) {
+if (dev) {
     let dumpster = document.getElementById("dumpster");
     dumpster.classList.remove("hide");
     let c = 0;
-    console.log = function(...args) {
+    console.log = function (...args) {
         dumpster.value += "\n" + c++ + " " + args.join("\t");
     }
 }
@@ -30,12 +26,25 @@ mapManager.create();
 let map = mapManager.map;
 
 let count = 0;
+let watchId = null;
+let lastWatch = 0;
 
-getLocation();
+let pinger = () => {
+    setTimeout(pinger, 5000); // Check every 5 seconds. It's only the ping time
+    let now = Date.now();
+    if (now - lastWatch > config.geolocationOverrideTimeout) {
+        if (watchId) {
+            navigator.geolocation.clearWatch(watchId);
+        }
+        getLocation();
+    }
+}
+pinger();
 
-function getLocation() {    
+function getLocation() {
+    lastWatch = Date.now();
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(showPosition, showError, geoOptions);
+        watchId = navigator.geolocation.watchPosition(showPosition, showError, geoOptions);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -68,10 +77,10 @@ function showPosition(position) {
 
     let coords = position.coords;
     let buffer = [];
-    createString("Latitude", 1, "°"); 
+    createString("Latitude", 1, "°");
     createString("Longitude", 1, "°");
     createString("Altitude", 1, "m");
-    
+
     x.innerHTML = buffer.join("<br/>");
 
     showSpeed(coords.speed, coords.heading);
@@ -79,7 +88,7 @@ function showPosition(position) {
 
     function createString(literal, multiplier = 1, tail = '') {
         let key = literal.toLowerCase()
-        if(coords[key] !== null) {
+        if (coords[key] !== null) {
             buffer.push("<span class='label'>" + literal + ":</span>" + formatter.format(coords[key] * multiplier) + tail);
         }
     }
@@ -99,7 +108,7 @@ waiSelect.addEventListener("click", async (ev) => {
 
 let destination = new Destination();
 let destinationLatLng = destination.get();
-if(destinationLatLng) {
+if (destinationLatLng) {
     selectInProcess = true;
     pointSelected(destinationLatLng);
     waiSelect.classList.add("hide");
@@ -112,7 +121,7 @@ map.on("click", ev => {
 });
 
 function pointSelected(latlng) {
-    if(selectInProcess) {
+    if (selectInProcess) {
         selectInProcess = false;
         let icon = L.divIcon({
             className: 'custom-div-icon',
@@ -152,14 +161,14 @@ function updatePosition(lat, lng) {
     // We will do the map update here
     console.log("Panned " + panned);
     lastLatLng = [lat, lng];
-    if(!panned) {
-        map.panTo(lastLatLng);
+    if (!panned) {
+        map.setView(lastLatLng);
     }
 }
 
 waiRecenter.addEventListener("recenter", async (e) => {
     let panned = false;
-    map.panTo(lastLatLng);
+    map.setView(lastLatLng);
     waiRecenter.classList.add("hide");
 });
 
@@ -173,7 +182,7 @@ map.on("dragend", () => {
 function showSpeed(speed, heading) {
     let compass = document.getElementById("speedCompass");
     let speedo = document.getElementById("speedValue");
-    if(speed && speed >= 0.26) {
+    if (speed && speed >= 0.26) {
         speedo.classList.remove("hide");
         compass.classList.remove("hide");
         speedo.setAttribute("number", speed * MS_TO_KMH);
