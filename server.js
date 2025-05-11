@@ -190,7 +190,14 @@ async function run() {
       let ok = now - lastPull > WAIT_PERIOD;
       if(ok) {
          lastPull = now;
-         const subprocess = spawn("git", ['pull'], {
+         let subprocess = spawn("git", ['pull'], {
+            detached: true,
+            stdio: 'ignore'
+         });
+         subprocess.unref();
+         
+         // nanigator
+         subprocess = spawn("bash", ['tools/pull_navigator'], {
             detached: true,
             stdio: 'ignore'
          });

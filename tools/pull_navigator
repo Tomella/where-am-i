@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Go to navigator root.
+cd /home/gpslogger/navigator
+
+/usr/bin/git pull
